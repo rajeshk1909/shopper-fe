@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <div className='flex items-center justify-between py-6 px-10 bg-[#ededf0]'>
+    <div className='flex items-center z-50 justify-between py-4 px-10 bg-[#ededf0]'>
       <Link href='/'>
         <Image src={logo} alt='Logo' className='h-10 w-10' />
       </Link>

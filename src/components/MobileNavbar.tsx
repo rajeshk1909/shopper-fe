@@ -14,7 +14,7 @@ import Link from "next/link"
 type MobileNavbarProps = {
   open: boolean
   toggleDrawer: (open: boolean) => void
-  userActions: userItemsTypes[]
+  userActions?: userItemsTypes[]
   menuItems: menuItemsType[]
   activeIndex: string | undefined
 }
@@ -59,7 +59,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({
           {menuItems.map((item: menuItemsType, index: number) => (
             <ListItem
               key={index}
-              className={`  py-1 ${
+              className={` py-1 my-1 ${
                 activeIndex === item.label
                   ? "border-l-4 border-[#4a90e2] bg-blue-100 font-semibold text-[#4a90e2]"
                   : "border-none text-[#777]"
@@ -84,10 +84,10 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({
 
         {/* User Actions */}
         <div className='mt-5'>
-          {userActions.map((action: userItemsTypes, index: number) => (
+          {userActions?.map((action: userItemsTypes, index: number) => (
             <ListItem
               key={index}
-              className={`py-1 ${
+              className={`py-1 my-1 ${
                 activeIndex === action.label
                   ? "border-l-4 border-[#f56c6c] bg-red-100 font-semibold text-[#f56c6c]"
                   : "border-none text-[#777]"
