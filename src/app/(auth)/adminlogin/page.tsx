@@ -3,6 +3,7 @@ import { Button } from "@/components/Button"
 import { Input } from "@/components/Input"
 import { useToast } from "@/context/ToastProvider"
 import api from "@/Utility/axiosInstance"
+import axios from "axios"
 import { Shield } from "lucide-react"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
@@ -75,9 +76,11 @@ const AdminLogin = () => {
       } else {
         showToast("info", response.data.message)
       }
-    } catch (error: any) {
-      if (error.response) {
-        showToast("info", error.response.data.message)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        showToast("error", error.response?.data?.message || "An error occurred")
+      } else if (error instanceof Error) {
+        showToast("error", error.message)
       } else {
         showToast("error", "An unknown error occurred")
       }
