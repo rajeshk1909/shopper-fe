@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import { Lexend } from "next/font/google"
+import { ToastProvider } from "@/context/ToastProvider"
+import "react-toastify/dist/ReactToastify.css"
 
 export const metadata: Metadata = {
   title: "Shopper",
@@ -20,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${lexend.className} text-[#555] font-medium`}>
-        {children}
+        <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
   )

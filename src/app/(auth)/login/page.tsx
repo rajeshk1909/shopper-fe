@@ -27,9 +27,25 @@ const Login = () => {
       <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
         <div className='bg-white py-8 px-6 shadow-lg rounded-lg sm:px-10'>
           <form className='space-y-6'>
-            <Input label='Email address' type='email' />
+            <Input
+              label='Email address'
+              type='email'
+              name='email'
+              // handleChange={handleChange}
+              // value={formData.email}
+              // error={!!errors.email}
+              // errorMessage={errors.email}
+            />
 
-            <Input label='Password' type='password' />
+            <Input
+              label='Password'
+              type='password'
+              // handleChange={handleChange}
+              // value={formData.password}
+              // error={!!errors.password}
+              // errorMessage={errors.password}
+              name='password'
+            />
 
             <Button
               type='submit'

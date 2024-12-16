@@ -1,9 +1,92 @@
+"use client"
 import { Button } from "@/components/Button"
 import { Input } from "@/components/Input"
+import { useToast } from "@/context/ToastProvider"
+import api from "@/Utility/axiosInstance"
 import { Shield } from "lucide-react"
 import Link from "next/link"
+// import { useRouter } from "next/router"
+import React, { useState } from "react"
 
-const Register = () => {
+interface FormData {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
+interface Errors {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
+const Register: React.FC = () => {
+  // const router = useRouter()
+  const { showToast } = useToast()
+
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  })
+
+  const [errors, setErrors] = useState<Errors>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const validate = () => {
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/
+
+    const newErrors: Errors = {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    }
+
+    if (!formData.name) newErrors.name = "Full Name is required"
+    if (!formData.email) newErrors.email = "Email is required"
+    if (!emailRegex.test(formData.email))``
+      newErrors.email = "Enter a valid email address"
+    if (!formData.password) newErrors.password = "Password is required"
+    if (formData.password.length < 6)
+      newErrors.password = "Password must be at least 6 characters"
+    if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match"
+
+    setErrors(newErrors)
+
+    return Object.values(newErrors).every((error) => error === "")
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!validate()) return
+
+    try {
+      const response = await api.post("/api/user/register")
+
+      if (response.status === 200) { 
+        showToast("success", "success") 
+      } else {
+        showToast(response.data.message || "Something went wrong", "error")
+      }
+    } catch (error: any) {
+      showToast(error.message || "An error occurred", "error")
+    }
+  }
+
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 px-6 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -25,14 +108,46 @@ const Register = () => {
 
       <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
         <div className='bg-white py-8 px-6 shadow-lg rounded-lg sm:px-10'>
-          <form className='space-y-6'>
-            <Input label='Full Name' type='name' />
+          <form onSubmit={handleSubmit} className='space-y-6'>
+            <Input
+              label='Full Name'
+              type='name'
+              value={formData.name}
+              handleChange={handleChange}
+              error={!!errors.name}
+              errorMessage={errors.name}
+              name='name'
+            />
 
-            <Input label='Email address' type='email' />
+            <Input
+              label='Email address'
+              type='email'
+              handleChange={handleChange}
+              value={formData.email}
+              name='email'
+              error={!!errors.email}
+              errorMessage={errors.email}
+            />
 
-            <Input label='Password' type='password' />
+            <Input
+              label='Password'
+              type='password'
+              handleChange={handleChange}
+              value={formData.password}
+              error={!!errors.password}
+              errorMessage={errors.password}
+              name='password'
+            />
 
-            <Input label='Confirm Password' type='password' />
+            <Input
+              label='Confirm Password'
+              type='password'
+              handleChange={handleChange}
+              value={formData.confirmPassword}
+              error={!!errors.confirmPassword}
+              errorMessage={errors.confirmPassword}
+              name='confirmPassword'
+            />
 
             <Button
               type='submit'
