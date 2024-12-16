@@ -71,7 +71,10 @@ const Login = () => {
 
       if (response.status === 200) {
         router.push("/")
-        localStorage.setItem("user", response.data)
+        setFormData({
+          email: "",
+          password: "",
+        })
         showToast("success", response.data.message)
       } else {
         showToast("info", response.data.message)

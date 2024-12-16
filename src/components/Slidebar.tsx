@@ -8,6 +8,7 @@ import { FaTachometerAlt, FaPlusCircle, FaClipboardList } from "react-icons/fa"
 import { usePathname } from "next/navigation"
 import { RiMenuFold4Line, RiMenuUnfold4Line } from "react-icons/ri"
 import MobileNavbar from "./MobileNavbar"
+import { FaUserPlus } from "react-icons/fa6"
 
 type menuItemsType = {
   label: string
@@ -31,7 +32,13 @@ const menuItems: menuItemsType[] = [
     to: "/admin/products",
     icon: <FaClipboardList />,
   },
+  {
+    label: "Admin Register",
+    to: "/adminregister",
+    icon: <FaUserPlus />, 
+  },
 ]
+
 
 const Slidebar: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<string | undefined>()

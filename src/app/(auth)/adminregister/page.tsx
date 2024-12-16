@@ -95,6 +95,12 @@ const Register: React.FC = () => {
 
       if (response.status === 201 && response.data.success === true) {
         showToast("success", response.data.message)
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        })
       } else {
         showToast("info", response.data.message)
       }

@@ -72,6 +72,10 @@ const AdminLogin = () => {
 
       if (response.status === 200) {
         showToast("success", response.data.message)
+        setFormData({
+          email: "",
+          password: "",
+        })
         router.push("/admin")
       } else {
         showToast("info", response.data.message)

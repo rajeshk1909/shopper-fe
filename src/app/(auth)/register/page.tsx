@@ -86,6 +86,12 @@ const AdminRegister: React.FC = () => {
 
       if (response.status === 201 && response.data.success) {
         showToast("success", response.data.message)
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        })
         router.push("/login")
       } else {
         showToast("info", response.data.message)
