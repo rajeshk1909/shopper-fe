@@ -4,32 +4,39 @@ import { Input } from "@/components/Input"
 import { useToast } from "@/context/ToastProvider"
 import api from "@/Utility/axiosInstance"
 import { Shield } from "lucide-react"
-import { useRouter } from "next/navigation"
+import Link from "next/link"
 import React, { useState } from "react"
 import { RiLoader2Fill } from "react-icons/ri"
 
 interface FormData {
+  name: string
   email: string
   password: string
+  confirmPassword: string
 }
 
 interface Errors {
+  name: string
   email: string
   password: string
+  confirmPassword: string
 }
 
-const AdminLogin = () => {
-  const router = useRouter()
+const Register: React.FC = () => {
   const { showToast } = useToast()
 
   const [formData, setFormData] = useState<FormData>({
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   })
 
   const [errors, setErrors] = useState<Errors>({
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   })
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -46,12 +53,15 @@ const AdminLogin = () => {
       return acc
     }, {} as Errors)
 
+    if (!formData.name) newErrors.name = "Full Name is required"
     if (!formData.email) newErrors.email = "Email is required"
     if (!emailRegex.test(formData.email))
       newErrors.email = "Enter a valid email address"
     if (!formData.password) newErrors.password = "Password is required"
     if (formData.password.length < 6)
       newErrors.password = "Password must be at least 6 characters"
+    if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match"
 
     setErrors(newErrors)
 
@@ -62,22 +72,34 @@ const AdminLogin = () => {
     e.preventDefault()
 
     if (!validate()) return
-    setLoading(true)
-    try {
-      const response = await api.post("/api/admin/login", {
-        email: formData.email,
-        password: formData.password,
-      })
 
-      if (response.status === 200) {
+    setLoading(true)
+
+    try {
+      const response = await api.post(
+        "/api/admin/register",
+        {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        },
+        {
+          headers: {
+            role: "admin",
+          },
+        }
+      )
+
+      console.log(response)
+
+      if (response.status === 201 && response.data.success === true) {
         showToast("success", response.data.message)
-        router.push("/admin")
       } else {
         showToast("info", response.data.message)
       }
     } catch (error: any) {
       if (error.response) {
-        showToast("info", error.response.data.message)
+        showToast("error", error.response.data.message)
       } else {
         showToast("error", "An unknown error occurred")
       }
@@ -87,16 +109,21 @@ const AdminLogin = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 px-6 lg:px-8'>
+    <div className='h-[100vh] bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 px-6 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-md'>
         <div className='flex justify-center mb-4'>
-          <Shield className='w-12 h-12 text-red-600 animate-bounce' />
+          <Shield className='w-12 h-12 text-blue-600 animate-bounce' />
         </div>
         <h2 className='text-center text-3xl font-extrabold text-gray-900'>
-          Admin Panel Login
+          Join the Admin Panel <br /> Your Account Awaits
         </h2>
-        <p className='mt-2 text-center font-lexend font-medium text-sm text-gray-600'>
-          Please enter your credentials to access the admin panel.
+        <p className='mt-2 text-center gap-2 flex justify-center font-lexend font-medium text-sm text-gray-600'>
+          Or
+          <Link
+            href='/admin'
+            className='font-medium text-blue-600 hover:text-blue-500'>
+            Back to dashboard
+          </Link>
         </p>
       </div>
 
@@ -104,11 +131,21 @@ const AdminLogin = () => {
         <div className='bg-white py-8 px-6 shadow-lg rounded-lg sm:px-10'>
           <form onSubmit={handleSubmit} className='space-y-6'>
             <Input
+              label='Full Name'
+              type='name'
+              value={formData.name}
+              handleChange={handleChange}
+              error={!!errors.name}
+              errorMessage={errors.name}
+              name='name'
+            />
+
+            <Input
               label='Email address'
               type='email'
-              name='email'
               handleChange={handleChange}
               value={formData.email}
+              name='email'
               error={!!errors.email}
               errorMessage={errors.email}
             />
@@ -123,17 +160,25 @@ const AdminLogin = () => {
               name='password'
             />
 
+            <Input
+              label='Confirm Password'
+              type='password'
+              handleChange={handleChange}
+              value={formData.confirmPassword}
+              error={!!errors.confirmPassword}
+              errorMessage={errors.confirmPassword}
+              name='confirmPassword'
+            />
+
             <Button
               type='submit'
-              className={`w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-transform transform hover:scale-105 ${
-                loading ? "cursor-not-allowed" : "cursor-pointer"
-              }`}>
+              className='w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-transform transform hover:scale-105'>
               {loading ? (
                 <span className='text-xl animate-spin'>
                   <RiLoader2Fill />
                 </span>
               ) : (
-                <p>Sign In</p>
+                <p>Create Account</p>
               )}
             </Button>
           </form>
@@ -143,4 +188,4 @@ const AdminLogin = () => {
   )
 }
 
-export default AdminLogin
+export default Register

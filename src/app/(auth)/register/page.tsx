@@ -5,8 +5,9 @@ import { useToast } from "@/context/ToastProvider"
 import api from "@/Utility/axiosInstance"
 import { Shield } from "lucide-react"
 import Link from "next/link"
-// import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import React, { useState } from "react"
+import { RiLoader2Fill } from "react-icons/ri"
 
 interface FormData {
   name: string
@@ -22,8 +23,8 @@ interface Errors {
   confirmPassword: string
 }
 
-const Register: React.FC = () => {
-  // const router = useRouter()
+const AdminRegister: React.FC = () => {
+  const router = useRouter()
   const { showToast } = useToast()
 
   const [formData, setFormData] = useState<FormData>({
@@ -39,6 +40,8 @@ const Register: React.FC = () => {
     password: "",
     confirmPassword: "",
   })
+
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -72,16 +75,21 @@ const Register: React.FC = () => {
     if (!validate()) return
 
     try {
-      const response = await api.post<Response>("/api/user/register")
+      const response = await api.post("/api/user/register", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      })
 
-      if (response.status === 200) {
-        showToast("success", response.statusText)
+      if (response.status === 201 && response.data.success) {
+        showToast("success", response.data.message)
+        router.push("/login")
       } else {
-        showToast("error", response.statusText)
+        showToast("info", response.data.message)
       }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        showToast("error", error.message)
+    } catch (error: any) {
+      if (error.response) {
+        showToast("error", error.response.data.message)
       } else {
         showToast("error", "An unknown error occurred")
       }
@@ -89,20 +97,20 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 px-6 lg:px-8'>
+    <div className='h-[100vh] bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 px-6 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-md'>
         <div className='flex justify-center mb-4'>
           <Shield className='w-12 h-12 text-blue-600 animate-bounce' />
         </div>
         <h2 className='text-center text-3xl font-extrabold text-gray-900'>
-          Sign in to your account
+          Create New Account
         </h2>
         <p className='mt-2 text-center gap-2 flex justify-center font-lexend font-medium text-sm text-gray-600'>
-          Or
+          Already have an account?
           <Link
             href='/login'
             className='font-medium text-blue-600 hover:text-blue-500'>
-            create a new account
+            Sign in
           </Link>
         </p>
       </div>
@@ -153,7 +161,13 @@ const Register: React.FC = () => {
             <Button
               type='submit'
               className='w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-transform transform hover:scale-105'>
-              Create Account
+              {loading ? (
+                <span className='text-xl animate-spin'>
+                  <RiLoader2Fill />
+                </span>
+              ) : (
+                <p>Create Account</p>
+              )}
             </Button>
           </form>
         </div>
@@ -162,4 +176,4 @@ const Register: React.FC = () => {
   )
 }
 
-export default Register
+export default AdminRegister

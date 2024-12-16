@@ -31,7 +31,7 @@ export const Input: React.FC<InputProps> = ({
   const isPasswordField = type === "password"
 
   return (
-    <div className='flex flex-col mb-1'>
+    <div className='flex flex-col'>
       <label className='text-sm font-medium font-lexend text-gray-700'>
         {label}
       </label>
@@ -56,7 +56,11 @@ export const Input: React.FC<InputProps> = ({
             )}
           </button>
         )}
-        {error && <p className='text-sm text-red-500'>{errorMessage}</p>}
+        <p className='h-1'>
+          {error && (
+            <span className='text-sm text-red-500'>{errorMessage}</span>
+          )}
+        </p>
       </div>
     </div>
   )
