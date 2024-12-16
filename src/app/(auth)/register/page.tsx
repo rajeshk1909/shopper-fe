@@ -45,19 +45,16 @@ const Register: React.FC = () => {
   }
 
   const validate = () => {
-
     const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/
 
-    const newErrors: Errors = {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    }
+    const newErrors: Errors = Object.keys(formData).reduce((acc, key) => {
+      acc[key as keyof Errors] = ""
+      return acc
+    }, {} as Errors)
 
     if (!formData.name) newErrors.name = "Full Name is required"
     if (!formData.email) newErrors.email = "Email is required"
-    if (!emailRegex.test(formData.email))``
+    if (!emailRegex.test(formData.email))
       newErrors.email = "Enter a valid email address"
     if (!formData.password) newErrors.password = "Password is required"
     if (formData.password.length < 6)
@@ -75,15 +72,19 @@ const Register: React.FC = () => {
     if (!validate()) return
 
     try {
-      const response = await api.post("/api/user/register")
+      const response = await api.post<Response>("/api/user/register")
 
-      if (response.status === 200) { 
-        showToast("success", "success") 
+      if (response.status === 200) {
+        showToast("success", response.statusText)
       } else {
-        showToast(response.data.message || "Something went wrong", "error")
+        showToast("error", response.statusText)
       }
-    } catch (error: any) {
-      showToast(error.message || "An error occurred", "error")
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        showToast("error", error.message)
+      } else {
+        showToast("error", "An unknown error occurred")
+      }
     }
   }
 
