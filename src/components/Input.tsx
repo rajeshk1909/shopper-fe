@@ -39,6 +39,7 @@ export const Input: React.FC<InputProps> = ({
         <input
           name={name}
           onChange={handleChange}
+          value={value}
           className={`block w-full rounded-lg px-4 py-2 text-sm bg-gray-50 border border-gray-300 focus:ring-blue-400 focus:outline-none focus:ring-2 transition-shadow duration-200 placeholder-gray-400 hover:shadow-md`}
           type={isPasswordField && isPasswordVisible ? "text" : type}
         />
