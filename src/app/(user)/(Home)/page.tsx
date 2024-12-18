@@ -19,7 +19,8 @@ const Home = () => {
                   <Image
                     src={item.imgSrc}
                     alt={item.altText}
-                    className='h-8 w-8'
+                    width={32}
+                    height={32}
                   />
                 </div>
                 <div className=''>
