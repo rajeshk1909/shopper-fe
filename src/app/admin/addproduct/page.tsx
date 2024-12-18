@@ -103,7 +103,7 @@ const AddProduct = () => {
         starRating: Number(formData.starRating),
         image: uploadedImage,
       })
-      if (response.status === 200) {
+      if (response.status === 201) {
         showToast("success", "Product added successfully")
       } else {
         showToast("error", "Failed to add product")
