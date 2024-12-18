@@ -64,7 +64,7 @@ const Slidebar: React.FC = () => {
       </div>
 
       {/* Main Navigation */}
-      <div className='my-5 md:space-y-2 md:block hidden'>
+      <div className='my-5 md:space-y-2 z-[999] md:block hidden'>
         {menuItems.map((item: menuItemsType, index: number) => (
           <ListItem
             key={index}
