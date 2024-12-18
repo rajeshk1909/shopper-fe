@@ -55,6 +55,9 @@ const AddProduct = () => {
     if (!image) {
       showToast("info", "Please select an image")
       return
+    } else if (uploadedImage) {
+      showToast("info", "Image already uploaded")
+      return
     }
 
     setLoading(true)
@@ -77,16 +80,42 @@ const AddProduct = () => {
       showToast("success", response.data.message)
     } catch (error) {
       showToast("error", "Failed to upload image")
-       console.error(error)
+      console.error(error)
     } finally {
       setLoading(false)
     }
   }
 
-  // const validate = () => {}
+  const validate = () => {
+    if (!formData.name) {
+      showToast("info", "Please enter a product title")
+      return false
+    } else if (formData.price === 0) {
+      showToast("info", "Please enter the product price")
+      return false
+    } else if (formData.discountPercentage === 0) {
+      showToast("info", "Please enter the discount percentage")
+      return false
+    } else if (formData.discountPercentage >= 100) {
+      showToast("info", "Please enter a valid discount percentage")
+      return false
+    } else if (!formData.category) {
+      showToast("info", "Please select a category")
+      return false
+    } else if (formData.starRating === 0) {
+      showToast("info", "Please provide a star rating")
+      return false
+    } else if (formData.starRating > 5) {
+      showToast("info", "Star rating must be less than 5")
+      return false
+    }
+    return true
+  }
 
   const AddProduct = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!validate()) return
 
     if (!uploadedImage) {
       showToast("info", "Please upload an image first")
@@ -105,6 +134,14 @@ const AddProduct = () => {
       })
       if (response.status === 201) {
         showToast("success", "Product added successfully")
+        setFormData({
+          name: "",
+          price: 0,
+          discountPercentage: 0,
+          starRating: 0,
+          category: "",
+        })
+        setUploadedImage(null)
       } else {
         showToast("error", "Failed to add product")
       }
