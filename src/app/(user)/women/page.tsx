@@ -1,8 +1,12 @@
-import React from 'react'
+import Banner from "@/components/AutoSlider"
+import React from "react"
 
 const WomensPage = () => {
   return (
-    <div>WomensPage</div>
+    <div>
+      <Banner />
+      WomensPage
+    </div>
   )
 }
 

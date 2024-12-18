@@ -72,6 +72,17 @@ const AdminLogin = () => {
 
       if (response.status === 200) {
         showToast("success", response.data.message)
+        localStorage.setItem(
+          "adminData",
+          JSON.stringify({
+            name: response.data.user.name,
+            email: response.data.user.email,
+            role: "admin",
+            token: response.data.token,
+            id: response.data.user.id,
+            isAdminLogin: true,
+          })
+        )
         setFormData({
           email: "",
           password: "",

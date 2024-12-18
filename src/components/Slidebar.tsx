@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation"
 import { RiMenuFold4Line, RiMenuUnfold4Line } from "react-icons/ri"
 import MobileNavbar from "./MobileNavbar"
 import { FaUserPlus } from "react-icons/fa6"
+import { MdOutlineLogout } from "react-icons/md"
 
 type menuItemsType = {
   label: string
@@ -35,10 +36,10 @@ const menuItems: menuItemsType[] = [
   {
     label: "Admin Register",
     to: "/adminregister",
-    icon: <FaUserPlus />, 
+    icon: <FaUserPlus />,
   },
+  { label: "Logout", to: "/login", icon: <MdOutlineLogout /> },
 ]
-
 
 const Slidebar: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<string | undefined>()

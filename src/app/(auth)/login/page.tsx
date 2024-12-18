@@ -70,12 +70,24 @@ const Login = () => {
       })
 
       if (response.status === 200) {
-        router.push("/")
+        showToast("success", response.data.message)
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({
+            name: response.data.user.name,
+            email: response.data.user.email,
+            role: response.data.user.role,
+            token: response.data.token,
+            id: response.data.user.id,
+            isUserLogin: true,
+          })
+        )
         setFormData({
           email: "",
           password: "",
         })
-        showToast("success", response.data.message)
+
+        router.push("/")
       } else {
         showToast("info", response.data.message)
       }

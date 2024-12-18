@@ -59,6 +59,10 @@ const Navbar: React.FC = () => {
     setOpen(!open)
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("userData")
+  }
+
   return (
     <div className='flex items-center z-50 justify-between py-4 px-10 bg-[#ededf0]'>
       <Link href='/'>
@@ -98,7 +102,7 @@ const Navbar: React.FC = () => {
           </Badge>
         </Link>
 
-        <Link href='/login'>
+        <Link onClick={handleLogout} href='/login'>
           <MdOutlineLogout className='w-6 h-6 text-gray-800' />
         </Link>
       </div>
