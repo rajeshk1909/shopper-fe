@@ -1,6 +1,6 @@
 const categories = [
   {
-    imgSrc: "/dress.svg", // Use absolute path
+    imgSrc: "/dress.svg",
     altText: "dress & frock",
     title: "Dress & frock",
     amount: 53,
@@ -49,6 +49,6 @@ const categories = [
   },
 ]
 
-export const categoriesTypes = (typeof categories)[0]
+export type  categoriesTypes = (typeof categories)[0]
 
 export default categories
