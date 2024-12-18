@@ -1,6 +1,5 @@
-"use client"
 import Slidebar from "@/components/Slidebar"
-import React, { createContext, useEffect, useState } from "react"
+import React from "react"
 
 type layoutProps = {
   children: React.ReactNode
