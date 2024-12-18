@@ -77,12 +77,13 @@ const AddProduct = () => {
       showToast("success", response.data.message)
     } catch (error) {
       showToast("error", "Failed to upload image")
+       console.error(error)
     } finally {
       setLoading(false)
     }
   }
 
-  const validate = () => {}
+  // const validate = () => {}
 
   const AddProduct = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -109,6 +110,7 @@ const AddProduct = () => {
       }
     } catch (error) {
       showToast("error", "Failed to add product")
+      console.error(error)
     } finally {
       setProductLoading(false)
     }
