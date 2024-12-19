@@ -31,7 +31,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   fromRef,
   toRef,
   curvature = 0,
-  reverse = false, // Include the reverse prop
+  reverse = false, 
   duration = Math.random() * 3 + 4,
   delay = 0,
   pathColor = "gray",
@@ -93,8 +93,15 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 
     // Initialize ResizeObserver
     const resizeObserver = new ResizeObserver((entries) => {
-      // For all entries, recalculate the path
-      for (let entry of entries) {
+      // Iterate through all observed entries
+      for (const entry of entries) {
+        // Optional: Check the observed element's size changes
+        const { contentRect } = entry
+        console.log(
+          `Element resized: width=${contentRect.width}, height=${contentRect.height}`
+        )
+
+        // Recalculate the path or perform other updates
         updatePath()
       }
     })

@@ -3,6 +3,7 @@ import Loader from "@/components/Loader"
 import ProductEditModal from "@/components/ProductEdit"
 import { useToast } from "@/context/ToastProvider"
 import api from "@/Utility/axiosInstance"
+import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { FiEdit } from "react-icons/fi"
 import { MdDelete } from "react-icons/md"
@@ -103,7 +104,7 @@ const ManageProducts = () => {
                       index % 2 === 0 ? "bg-gray-50" : "bg-gray-100"
                     } text-xs md:text-sm`}>
                     <td className='px-4 py-2'>
-                      <img
+                      <Image
                         src={product.image}
                         alt={product.name}
                         width={40}

@@ -6,6 +6,7 @@ import { FaNodeJs, FaServer, FaDatabase } from "react-icons/fa"
 
 import { cn } from "@/lib/utils"
 import { AnimatedBeam } from "@/components/animated-beam"
+import Image from "next/image"
 
 const Circle = forwardRef<
   HTMLDivElement,
@@ -50,10 +51,11 @@ const Loader = ({ className }: { className?: string }) => {
         </div>
         <div className='flex flex-col justify-center'>
           <Circle ref={div6Ref} className='size-16'>
-            <img
-              src='https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg'
+            <Image
+              src='/public/next.svg'
               alt='Next.js Logo'
-              className=''
+              height={40}
+              width={40}
             />
           </Circle>
         </div>
