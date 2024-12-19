@@ -87,30 +87,34 @@ const AddProduct = () => {
   }
 
   const validate = () => {
-    if (!formData.name) {
+    if (!formData.name.trim()) {
       showToast("info", "Please enter a product title")
       return false
-    } else if (formData.price === 0) {
-      showToast("info", "Please enter the product price")
+    } else if (formData.price <= 0) {
+      showToast("info", "Please enter a valid product price (greater than 0)")
       return false
-    } else if (formData.discountPercentage === 0) {
-      showToast("info", "Please enter the discount percentage")
+    } else if (formData.discountPercentage <= 0) {
+      showToast(
+        "info",
+        "Please enter a valid discount percentage (greater than 0)"
+      )
       return false
     } else if (formData.discountPercentage >= 100) {
-      showToast("info", "Please enter a valid discount percentage")
+      showToast("info", "Please enter a discount percentage less than 100")
       return false
-    } else if (!formData.category) {
+    } else if (!formData.category.trim()) {
       showToast("info", "Please select a category")
       return false
-    } else if (formData.starRating === 0) {
-      showToast("info", "Please provide a star rating")
+    } else if (formData.starRating <= 0) {
+      showToast("info", "Please provide a valid star rating (greater than 0)")
       return false
     } else if (formData.starRating > 5) {
-      showToast("info", "Star rating must be less than 5")
+      showToast("info", "Star rating must not exceed 5")
       return false
     }
     return true
   }
+
 
   const AddProduct = async (e: React.FormEvent) => {
     e.preventDefault()
