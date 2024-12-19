@@ -55,7 +55,7 @@ const ManageProducts = () => {
       if (response.status === 200) {
         showToast("success", response.data.message)
 
-        const removeProduct = productsData.filter(
+        const removeProduct = productsData?.filter(
           (product) => product._id !== id
         )
         setProductsData(removeProduct)
@@ -68,6 +68,20 @@ const ManageProducts = () => {
   const handleEdit = async (product: ProductsDataTypes) => {
     setOpen(true)
     setProductsEditData(product)
+  }
+
+  const updateProduct = (updatedProduct: ProductsDataTypes) => {
+    const updatedProducts = productsData.map((product) =>
+      product._id === updatedProduct._id ? updatedProduct : product
+    )
+
+    setProductsData(updatedProducts)
+  }
+
+
+  const handleClose = () => {
+    setOpen(false)
+    setProductsEditData(null)
   }
 
   return (
@@ -137,8 +151,9 @@ const ManageProducts = () => {
       </div>
       <ProductEditModal
         open={open}
-        setOpen={setOpen}
+        handleClose={handleClose}
         product={productEditData}
+        updateProduct={updateProduct}
       />
     </div>
   )

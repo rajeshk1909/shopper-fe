@@ -3,6 +3,7 @@
 import React, { forwardRef, useRef } from "react"
 import { FaRegCircleUser } from "react-icons/fa6"
 import { FaNodeJs, FaServer, FaDatabase } from "react-icons/fa"
+import Logo from "../../public/next.svg"
 
 import { cn } from "@/lib/utils"
 import { AnimatedBeam } from "@/components/animated-beam"
@@ -51,12 +52,7 @@ const Loader = ({ className }: { className?: string }) => {
         </div>
         <div className='flex flex-col justify-center'>
           <Circle ref={div6Ref} className='size-16'>
-            <Image
-              src='/public/next.svg'
-              alt='Next.js Logo'
-              height={40}
-              width={40}
-            />
+            <Image src={Logo} alt='Next.js Logo' height={40} width={40} />
           </Circle>
         </div>
         <div className='flex flex-col justify-center gap-2'>
