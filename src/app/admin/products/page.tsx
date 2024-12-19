@@ -49,6 +49,11 @@ const ManageProducts = () => {
   }, [])
 
   const handleRemove = async (id: string) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this product?"
+    )
+
+    if (!isConfirmed) return
     try {
       const response = await api.delete(`/api/products/${id}`)
 
@@ -77,7 +82,6 @@ const ManageProducts = () => {
 
     setProductsData(updatedProducts)
   }
-
 
   const handleClose = () => {
     setOpen(false)

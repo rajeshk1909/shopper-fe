@@ -115,10 +115,10 @@ const ProductEditModal: React.FC<ProductEditModalPropsTypes> = ({
       aria-describedby='modal-modal-description'>
       <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
         <div
-          className='space-y-4 w-[600px] bg-white py-10 px-10 rounded-md shadow-lg'
+          className='w-[600px] bg-white py-10 px-10 rounded-md shadow-lg'
           onClick={(e) => e.stopPropagation()}>
           <h1 className='text-center pb-5 text-red-500'>Edit your products</h1>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className='space-y-5'>
             <Input
               label='Product Title'
               name='name'
