@@ -27,7 +27,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className='max-w-[300px] min-w-[290px] sm:min-w-[270px] sm:px-0 px-[10%]'>
+      className='max-w-[300px]  sm:px-0 px-[10%]'>
       <div
         className='overflow-hidden bg-white shadow-md rounded-lg relative group border border-gray-200'
         onMouseEnter={() => setIsHovered(true)}
