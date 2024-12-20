@@ -37,7 +37,7 @@ const Home = () => {
   return (
     <div>
       <Banner />
-      <div className='mx-[10%]'>
+      <div className='md:px-[10%] px-[5%]'>
         <Marquee>
           {categories.map((item: categoriesTypes, index: number) => (
             <div
@@ -68,7 +68,7 @@ const Home = () => {
         {isLoading ? (
           <Loader />
         ) : productsData?.length > 0 ? (
-          <div className='grid justify-center items-center 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 gap-5 py-20'>
+          <div className='grid justify-center items-center 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 gap-5 py-7 md:py-20'>
             {productsData.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}

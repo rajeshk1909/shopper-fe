@@ -32,7 +32,7 @@ const AutoSlider: React.FC = () => {
 
   return (
     <div className='flex items-center justify-center w-full'>
-      <div className=' relative rounded-xl overflow-hidden my-10 w-[80%] '>
+      <div className=' relative rounded-xl overflow-hidden md:my-10 my-5 w-[80%] '>
         <div
           className={`flex ${
             isTransitioning
@@ -45,7 +45,7 @@ const AutoSlider: React.FC = () => {
               key={index}
               src={image}
               alt={`Slide ${index}`}
-              className=' '
+              className=''
             />
           ))}
           <Image src={images[0]} alt='Slide Clone' className='  ' />
