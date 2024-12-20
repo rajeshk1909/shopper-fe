@@ -2,12 +2,14 @@
 import { Button } from "@/components/Button"
 import { Input } from "@/components/Input"
 import { useToast } from "@/context/ToastProvider"
+import { setUser } from "@/store/features/userSlice"
 import api from "@/Utility/axiosInstance"
 import axios from "axios"
 import { Shield } from "lucide-react"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { RiLoader2Fill } from "react-icons/ri"
+import { useDispatch } from "react-redux"
 
 interface FormData {
   email: string
@@ -20,6 +22,7 @@ interface Errors {
 }
 
 const AdminLogin = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
   const { showToast } = useToast()
 
@@ -72,15 +75,15 @@ const AdminLogin = () => {
 
       if (response.status === 200) {
         showToast("success", response.data.message)
-        localStorage.setItem(
-          "adminData",
-          JSON.stringify({
+
+        dispatch(
+          setUser({
             name: response.data.user.name,
             email: response.data.user.email,
             role: "admin",
             token: response.data.token,
             id: response.data.user.id,
-            isAdminLogin: true,
+            isUserLogin: true,
           })
         )
         setFormData({

@@ -83,12 +83,12 @@ const ProductEditModal: React.FC<ProductEditModalPropsTypes> = ({
       const updatedProduct: ProductsDataTypes = {
         _id: formdata._id,
         name: formdata.name,
-        price: formdata.price,
-        discountPercentage: formdata.discountPercentage,
-        starRating: formdata.starRating,
+        price: Math.floor(formdata.price),
+        discountPercentage: Math.floor(formdata.discountPercentage),
+        starRating: Math.floor(formdata.starRating),
         image: formdata.image,
         category: formdata.categories,
-        discountPrice: newPrice,
+        discountPrice: Math.floor(newPrice),
       }
 
       const response = await api.put(

@@ -130,10 +130,10 @@ const AddProduct = () => {
       setProductLoading(true)
       const response = await api.post("/api/products", {
         name: formData.name,
-        price: Number(formData.price),
-        discountPercentage: Number(formData.discountPercentage),
+        price: Math.floor(formData.price),
+        discountPercentage: Math.floor(formData.discountPercentage),
         category: formData.category,
-        starRating: Number(formData.starRating),
+        starRating: Math.floor(formData.starRating),
         image: uploadedImage,
       })
       if (response.status === 201) {

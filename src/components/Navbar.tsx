@@ -12,10 +12,12 @@ import {
   MdAddShoppingCart,
   MdOutlineLogout,
 } from "react-icons/md"
-import { FaRegHeart } from "react-icons/fa"
+import { FaRegHeart, FaTachometerAlt } from "react-icons/fa"
 import { RiMenuUnfold4Line, RiMenuFold4Line } from "react-icons/ri"
 import MobileNavbar from "./MobileNavbar"
 import { usePathname } from "next/navigation"
+import { useDispatch } from "react-redux"
+import { clearUser } from "@/store/features/userSlice"
 
 export type menuItemsType = {
   label: string
@@ -34,6 +36,11 @@ const menuItems: menuItemsType[] = [
   { label: "Men", icon: <MdMale />, to: "/men" },
   { label: "Women", icon: <MdFemale />, to: "/women" },
   { label: "Kids", icon: <MdChildCare />, to: "/kids" },
+  {
+    label: "Admin",
+    to: "/admin",
+    icon: <FaTachometerAlt />,
+  },
 ]
 
 const userActions: userItemsTypes[] = [
@@ -43,6 +50,7 @@ const userActions: userItemsTypes[] = [
 ]
 
 const Navbar: React.FC = () => {
+  const dispatch = useDispatch()
   const [open, setOpen] = useState<boolean>(false)
   const [activeIndex, setActiveIndex] = useState<string | undefined>()
 
@@ -60,7 +68,7 @@ const Navbar: React.FC = () => {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("userData")
+    dispatch(clearUser())
   }
 
   return (

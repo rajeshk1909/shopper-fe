@@ -9,7 +9,9 @@ import { usePathname } from "next/navigation"
 import { RiMenuFold4Line, RiMenuUnfold4Line } from "react-icons/ri"
 import MobileNavbar from "./MobileNavbar"
 import { FaUserPlus } from "react-icons/fa6"
-import { MdOutlineLogout } from "react-icons/md"
+import { MdHome, MdOutlineLogout } from "react-icons/md"
+import { useDispatch } from "react-redux"
+import { clearUser } from "@/store/features/userSlice"
 
 type menuItemsType = {
   label: string
@@ -18,6 +20,7 @@ type menuItemsType = {
 }
 
 const menuItems: menuItemsType[] = [
+  { label: "Home", icon: <MdHome />, to: "/" },
   {
     label: "Dashboard",
     to: "/admin",
@@ -42,6 +45,7 @@ const menuItems: menuItemsType[] = [
 ]
 
 const Slidebar: React.FC = () => {
+  const dispatch = useDispatch()
   const [activeIndex, setActiveIndex] = useState<string | undefined>()
   const [open, setOpen] = useState<boolean>(false)
 
@@ -54,6 +58,10 @@ const Slidebar: React.FC = () => {
 
   const toggleDrawer = () => {
     setOpen(!open)
+  }
+
+  const useLogout = () => {
+    dispatch(clearUser())
   }
 
   return (
@@ -75,7 +83,11 @@ const Slidebar: React.FC = () => {
             }`}
             disablePadding>
             <Link href={item.to} className='w-full px-3 md:px-0'>
-              <ListItemButton className='flex gap-5'>
+              <ListItemButton
+                onClick={
+                  item.label === "Logout" ? () => useLogout() : undefined
+                }
+                className='flex gap-5'>
                 <span className='text-[#4a90e2] text-2xl'>{item.icon}</span>
                 <p>{item.label}</p>
               </ListItemButton>

@@ -10,6 +10,9 @@ import Image from "next/image"
 import logo from "../../public/logo.png"
 import { menuItemsType, userItemsTypes } from "./Navbar"
 import Link from "next/link"
+import { useDispatch } from "react-redux"
+import { clearUser } from "@/store/features/userSlice"
+import { LogOut } from "lucide-react"
 
 type MobileNavbarProps = {
   open: boolean
@@ -26,6 +29,12 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({
   menuItems,
   activeIndex,
 }) => {
+  const dispatch = useDispatch()
+
+  const useLogout = () => {
+    dispatch(clearUser())
+  }
+
   return (
     <Drawer anchor='left' open={open} onClose={() => toggleDrawer(false)}>
       <Box
@@ -71,7 +80,11 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({
                 onClick={() => {
                   toggleDrawer(false)
                 }}>
-                <ListItemButton className='flex gap-5'>
+                <ListItemButton
+                  className='flex gap-5'
+                  onClick={
+                    item.label === "Logout" ? () => useLogout() : undefined
+                  }>
                   <span className='text-[#4a90e2] text-2xl'>{item.icon}</span>
                   <p>{item.label}</p>
                 </ListItemButton>
@@ -99,7 +112,11 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({
                 onClick={() => {
                   toggleDrawer(false)
                 }}>
-                <ListItemButton className='flex gap-5 px-10'>
+                <ListItemButton
+                  className='flex gap-5 px-10'
+                  onClick={
+                    action.label === "Logout" ? () => useLogout() : undefined
+                  }>
                   <span className=' text-xl font-bold text-[#f56c6c]'>
                     {action.icon}
                   </span>
