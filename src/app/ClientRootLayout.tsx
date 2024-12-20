@@ -17,7 +17,7 @@ const lexend = Lexend({
 const ClientRootLayout = ({ children }: { children: React.ReactNode }) => (
   <div className={`${lexend.className} text-[#555] font-medium font-sans`}>
     <Provider store={store}>
-      <PersistGate loading={<Loading />} persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
         <ToastProvider>{children}</ToastProvider>
       </PersistGate>
     </Provider>
