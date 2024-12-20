@@ -20,7 +20,10 @@ const Home = () => {
         const response = await api.get("/api/products")
 
         if (response.status === 200) {
-          setProductsData(response.data.products)
+          const data = response.data.products
+
+          const shuffledProductData = data.sort(() => Math.random() - 0.5)
+          setProductsData(shuffledProductData)
         } else {
           console.log("Failed to fetch data")
         }

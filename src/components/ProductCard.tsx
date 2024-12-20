@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Star, ShoppingBag, TrendingUp } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { ProductDetailModal } from "./ProductDetailModal"
 
 export interface Product {
   name: string
@@ -21,6 +22,27 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false)
+
+  const [open, setOpen] = useState<boolean>(false)
+  const [detailProduct, setDetailProduct] = useState<Product>({
+    name: "",
+    price: 0,
+    discountPercentage: 0,
+    category: "",
+    starRating: 0,
+    image: "",
+    discountPrice: 0,
+  })
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleQuickView = (product: Product) => {
+    setOpen(true)
+    setDetailProduct(product)
+    setIsHovered(false)
+  }
 
   return (
     <motion.div
@@ -54,6 +76,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             initial={false}
             animate={{ opacity: isHovered ? 1 : 0 }}>
             <motion.button
+              onClick={() => handleQuickView(product)}
               className='bg-white text-black px-3 py-1 rounded-full font-medium text-sm transform hover:scale-105 transition-transform'
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.7 }}>
@@ -116,6 +139,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             </motion.button>
           </div>
         </div>
+        <ProductDetailModal
+          detailProduct={detailProduct}
+          open={open}
+          onClose={handleClose}
+        />
       </div>
     </motion.div>
   )
