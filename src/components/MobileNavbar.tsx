@@ -31,7 +31,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({
 }) => {
   const dispatch = useDispatch()
 
-  const useLogout = () => {
+  const handleLogout = () => {
     dispatch(clearUser())
   }
 
@@ -83,7 +83,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({
                 <ListItemButton
                   className='flex gap-5'
                   onClick={
-                    item.label === "Logout" ? () => useLogout() : undefined
+                    item.label === "Logout" ? handleLogout : undefined
                   }>
                   <span className='text-[#4a90e2] text-2xl'>{item.icon}</span>
                   <p>{item.label}</p>
@@ -115,7 +115,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({
                 <ListItemButton
                   className='flex gap-5 px-10'
                   onClick={
-                    action.label === "Logout" ? () => useLogout() : undefined
+                    action.label === "Logout" ? handleLogout : undefined
                   }>
                   <span className=' text-xl font-bold text-[#f56c6c]'>
                     {action.icon}

@@ -60,7 +60,7 @@ const Slidebar: React.FC = () => {
     setOpen(!open)
   }
 
-  const useLogout = () => {
+  const handleLogout = () => {
     dispatch(clearUser())
   }
 
@@ -85,7 +85,7 @@ const Slidebar: React.FC = () => {
             <Link href={item.to} className='w-full px-3 md:px-0'>
               <ListItemButton
                 onClick={
-                  item.label === "Logout" ? () => useLogout() : undefined
+                  item.label === "Logout" ? handleLogout : undefined
                 }
                 className='flex gap-5'>
                 <span className='text-[#4a90e2] text-2xl'>{item.icon}</span>
