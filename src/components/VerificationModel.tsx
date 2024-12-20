@@ -38,7 +38,9 @@ export const VerificationModel = ({
     const adminSecretKey = process.env.NEXT_PUBLIC_ADMIN_SECRT_KEY
 
     if (formdata.password.length < 6) {
+      onClose()
       showToast("error", "Invalid secret key, please try again.")
+      setFormData({ password: "" })
       return
     }
 
@@ -48,8 +50,10 @@ export const VerificationModel = ({
         "success",
         "Admin authenticated successfully, you can manage products."
       )
+      setFormData({ password: "" })
     } else {
       showToast("error", "Invalid secret key, please try again.")
+      setFormData({ password: "" })
     }
     onClose()
   }
