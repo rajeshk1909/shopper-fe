@@ -1,3 +1,4 @@
+import AdminHeader from "@/components/AdminHeader"
 import Slidebar from "@/components/Slidebar"
 import React from "react"
 
@@ -11,7 +12,11 @@ const layout: React.FC<layoutProps> = ({ children }) => {
       <div className='md:fixed md:w-64 w-full sticky z-50 top-0'>
         <Slidebar />
       </div>
-      <div className='w-full md:ml-64 md:overflow-y-auto'>{children}</div>
+
+      <div className='w-full md:ml-64 md:overflow-y-auto'>
+        <AdminHeader />
+        {children}
+      </div>
     </div>
   )
 }

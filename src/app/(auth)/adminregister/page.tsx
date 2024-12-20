@@ -6,6 +6,7 @@ import api from "@/Utility/axiosInstance"
 import axios from "axios"
 import { Shield } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { RiLoader2Fill } from "react-icons/ri"
 
@@ -25,6 +26,7 @@ interface Errors {
 
 const Register: React.FC = () => {
   const { showToast } = useToast()
+  const router = useRouter()
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -117,6 +119,10 @@ const Register: React.FC = () => {
     }
   }
 
+  const handleBack = () => {
+    router.back()
+  }
+
   return (
     <div className='h-[100vh] bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 px-6 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -128,11 +134,11 @@ const Register: React.FC = () => {
         </h2>
         <p className='mt-2 text-center gap-2 flex justify-center font-lexend font-medium text-sm text-gray-600'>
           Or
-          <Link
-            href='/admin'
+          <button
+            onClick={handleBack}
             className='font-medium text-blue-600 hover:text-blue-500'>
-            Back to dashboard
-          </Link>
+            Back
+          </button>
         </p>
       </div>
 

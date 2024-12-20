@@ -12,7 +12,6 @@ import { menuItemsType, userItemsTypes } from "./Navbar"
 import Link from "next/link"
 import { useDispatch } from "react-redux"
 import { clearUser } from "@/store/features/userSlice"
-import { LogOut } from "lucide-react"
 
 type MobileNavbarProps = {
   open: boolean
