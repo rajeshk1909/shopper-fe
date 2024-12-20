@@ -1,10 +1,11 @@
 import * as React from "react"
-import Button from "@mui/material/Button"
-import Modal from "@mui/material/Modal"
 import { ProductsDataTypes } from "@/app/admin/products/page"
 import { Input } from "./Input"
 import api from "@/Utility/axiosInstance"
 import { useToast } from "@/context/ToastProvider"
+import { Dialog } from "@mui/material"
+import { motion } from "framer-motion"
+import { Button } from "./Button"
 
 interface ProductEditModalPropsTypes {
   open: boolean
@@ -108,53 +109,62 @@ const ProductEditModal: React.FC<ProductEditModalPropsTypes> = ({
   }
 
   return (
-    <Modal
+    <Dialog
       open={open}
       onClose={handleClose}
-      aria-labelledby='modal-modal-title'
-      aria-describedby='modal-modal-description'>
-      <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
-        <div
-          className='w-[600px] bg-white py-10 px-10 rounded-md shadow-lg'
-          onClick={(e) => e.stopPropagation()}>
-          <h1 className='text-center pb-5 text-red-500'>Edit your products</h1>
-          <form onSubmit={handleSubmit} className='space-y-5'>
-            <Input
-              label='Product Title'
-              name='name'
-              type='text'
-              value={formdata.name}
-              handleChange={changeHandler}
-            />
-            <Input
-              label='Price'
-              name='price'
-              type='number'
-              value={formdata.price.toString()}
-              handleChange={changeHandler}
-            />
-            <Input
-              label='Discount Percentage'
-              name='discountPercentage'
-              type='number'
-              value={formdata.discountPercentage.toString()}
-              handleChange={changeHandler}
-            />
-            <Input
-              label='Star Rating'
-              name='starRating'
-              type='number'
-              value={formdata.starRating.toString()}
-              handleChange={changeHandler}
-            />
-            <div className='flex items-center pt-5 justify-center gap-10'>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button type='submit'>Save</Button>
-            </div>
-          </form>
+      maxWidth='md'
+      fullWidth
+      className='backdrop-blur-sm'>
+      <div
+        className='bg-white pb-10 px-10 rounded-md shadow-lg'
+        onClick={(e) => e.stopPropagation()}>
+        <div className='flex justify-end py-6 items-center'>
+          <motion.button
+            onClick={handleClose}
+            className='text-gray-500 hover:text-gray-800 transition duration-200'
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}>
+            ✕
+          </motion.button>
         </div>
+
+        <form onSubmit={handleSubmit} className='space-y-5'>
+          <h1 className='text-center font-bold text-xl font-lexend'>
+            MAKE YOUR CHANGES
+          </h1>
+
+          <Input
+            label='Product Title'
+            name='name'
+            type='text'
+            value={formdata.name}
+            handleChange={changeHandler}
+          />
+          <Input
+            label='Price'
+            name='price'
+            type='number'
+            value={formdata.price.toString()}
+            handleChange={changeHandler}
+          />
+          <Input
+            label='Discount Percentage'
+            name='discountPercentage'
+            type='number'
+            value={formdata.discountPercentage.toString()}
+            handleChange={changeHandler}
+          />
+          <Input
+            label='Star Rating'
+            name='starRating'
+            type='number'
+            value={formdata.starRating.toString()}
+            handleChange={changeHandler}
+          />
+          <Button className="w-full mt-10">Save</Button>
+        </form>
       </div>
-    </Modal>
+    </Dialog>
   )
 }
 

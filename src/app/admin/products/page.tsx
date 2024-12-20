@@ -1,6 +1,7 @@
 "use client"
 import Loader from "@/components/Loader"
 import ProductEditModal from "@/components/ProductEdit"
+import VerificationModel from "@/components/VerificationModel"
 import { useToast } from "@/context/ToastProvider"
 import api from "@/Utility/axiosInstance"
 import Image from "next/image"
@@ -24,6 +25,8 @@ const ManageProducts = () => {
   const [productsData, setProductsData] = useState<ProductsDataTypes[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [open, setOpen] = React.useState(false)
+  const [verificationOpen, setVerificationOpen] = useState<boolean>(false)
+  const [isAdminValidate, setIsAdminValidate] = useState<boolean>(false)
   const [productEditData, setProductsEditData] =
     useState<ProductsDataTypes | null>(null)
 
@@ -49,6 +52,9 @@ const ManageProducts = () => {
   }, [])
 
   const handleRemove = async (id: string) => {
+    if (!isAdminValidate) {
+      return setVerificationOpen(true)
+    }
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this product?"
     )
@@ -71,6 +77,11 @@ const ManageProducts = () => {
   }
 
   const handleEdit = async (product: ProductsDataTypes) => {
+
+    if (!isAdminValidate) {
+      return setVerificationOpen(true)
+    }
+
     setOpen(true)
     setProductsEditData(product)
   }
@@ -86,6 +97,10 @@ const ManageProducts = () => {
   const handleClose = () => {
     setOpen(false)
     setProductsEditData(null)
+  }
+
+  const verificationClose = () => {
+    setVerificationOpen(false)
   }
 
   return (
@@ -158,6 +173,11 @@ const ManageProducts = () => {
         handleClose={handleClose}
         product={productEditData}
         updateProduct={updateProduct}
+      />
+      <VerificationModel
+        open={verificationOpen}
+        onClose={verificationClose}
+        setIsAdminValidate={setIsAdminValidate}
       />
     </div>
   )

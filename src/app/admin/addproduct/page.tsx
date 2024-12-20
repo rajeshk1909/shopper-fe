@@ -7,6 +7,7 @@ import { Button } from "@/components/Button"
 import api from "@/Utility/axiosInstance"
 import { RiLoader2Fill } from "react-icons/ri"
 import { useToast } from "@/context/ToastProvider"
+import VerificationModel from "@/components/VerificationModel"
 
 const categories = ["men", "women", "kids"]
 
@@ -33,6 +34,8 @@ const AddProduct = () => {
   })
   const [loading, setLoading] = useState<boolean>(false)
   const [productLoading, setProductLoading] = useState<boolean>(false)
+  const [isAdminValidate, setIsAdminValidate] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -52,6 +55,11 @@ const AddProduct = () => {
 
   const uploadImage = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!isAdminValidate) {
+      setOpen(true)
+      return
+    }
     if (!image) {
       showToast("info", "Please select an image")
       return
@@ -115,10 +123,12 @@ const AddProduct = () => {
     return true
   }
 
-
   const AddProduct = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    if (!isAdminValidate) {
+      setOpen(true)
+      return
+    }
     if (!validate()) return
 
     if (!uploadedImage) {
@@ -155,6 +165,10 @@ const AddProduct = () => {
     } finally {
       setProductLoading(false)
     }
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   return (
@@ -251,6 +265,11 @@ const AddProduct = () => {
           )}
         </Button>
       </form>
+      <VerificationModel
+        open={open}
+        onClose={handleClose}
+        setIsAdminValidate={setIsAdminValidate}
+      />
     </div>
   )
 }
