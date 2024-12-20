@@ -40,7 +40,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <Image
             src={product.image}
             alt={product.name}
-            className='object-cover w-full min-h-full'
+            className='object-fill w-full min-h-full'
             width={300}
             height={200}
           />
