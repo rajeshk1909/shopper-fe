@@ -4,7 +4,7 @@ import Loader from "@/components/Loader"
 import { ProductCard } from "@/components/ProductCard"
 import { DataContext } from "@/context/DataProvider"
 import { ProductsDataTypes } from "@/types/dataTypes"
-import React, { useContext, useEffect, useMemo, useState } from "react"
+import React, { useContext, useMemo } from "react"
 
 const WomensPage = () => {
   const dataContext = useContext(DataContext)
