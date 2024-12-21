@@ -1,11 +1,11 @@
 import * as React from "react"
-import { ProductsDataTypes } from "@/app/admin/products/page"
 import { Input } from "./Input"
 import api from "@/Utility/axiosInstance"
 import { useToast } from "@/context/ToastProvider"
 import { Dialog } from "@mui/material"
 import { motion } from "framer-motion"
 import { Button } from "./Button"
+import { ProductsDataTypes } from "@/types/dataTypes"
 
 interface ProductEditModalPropsTypes {
   open: boolean
