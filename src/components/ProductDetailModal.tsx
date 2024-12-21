@@ -59,6 +59,7 @@ export const ProductDetailModal = ({
               width={300}
               height={300}
               className='object-cover rounded-lg shadow-lg'
+              loading="lazy"
             />
           </motion.div>
 

@@ -1,4 +1,4 @@
-
+"use client"
 import { StatCard } from "@/components/StatCard"
 import { RevenueChart } from "@/components/RevenueChart"
 import { statsData } from "@/const/statsData"

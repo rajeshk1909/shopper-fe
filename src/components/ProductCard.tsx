@@ -62,15 +62,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <Image
             src={product.image}
             alt={product.name}
-            className='object-fill w-full min-h-full'
+            className='object-fill'
             width={300}
             height={200}
+            loading='lazy'
           />
 
           <div className='absolute top-3 left-3 group-hover:top-4 group-hover:left-5 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium'>
             -{product.discountPercentage}%
           </div>
-          {/* Hover Overlay */}
+          
           <motion.div
             className='absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity'
             initial={false}

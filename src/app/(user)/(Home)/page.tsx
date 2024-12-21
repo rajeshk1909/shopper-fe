@@ -1,41 +1,27 @@
 "use client"
-import { ProductsDataTypes } from "@/app/admin/products/page"
 import Banner from "@/components/AutoSlider"
 import Loader from "@/components/Loader"
 import Marquee from "@/components/marquee"
 import { ProductCard } from "@/components/ProductCard"
 import categories, { categoriesTypes } from "@/const/categories"
-import api from "@/Utility/axiosInstance"
+import { DataContext } from "@/context/DataProvider"
 import Image from "next/image"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useMemo } from "react"
 
 const Home = () => {
-  const [productsData, setProductsData] = useState<ProductsDataTypes[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const dataContext = useContext(DataContext)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true)
-      try {
-        const response = await api.get("/api/products")
+  if (!dataContext) {
+    throw new Error(
+      "ProductsContainer must be used within a DataContextProvider"
+    )
+  }
 
-        if (response.status === 200) {
-          const data = response.data.products
+  const { products, loading } = dataContext
 
-          const shuffledProductData = data.sort(() => Math.random() - 0.5)
-          setProductsData(shuffledProductData)
-        } else {
-          console.log("Failed to fetch data")
-        }
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
+  const shuffledProduct = useMemo(() => {
+    return products.sort(() => Math.random() - 0.5)
+  }, [products])
 
   return (
     <div>
@@ -68,11 +54,11 @@ const Home = () => {
         </Marquee>
 
         {/* product */}
-        {isLoading ? (
+        {loading ? (
           <Loader />
-        ) : productsData?.length > 0 ? (
+        ) : shuffledProduct?.length > 0 ? (
           <div className='grid justify-center items-center 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 gap-5 py-7 md:py-20'>
-            {productsData.map((product) => (
+            {shuffledProduct.slice(0, 12).map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
