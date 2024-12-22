@@ -37,8 +37,6 @@ export const VerificationModel = ({
 
     const adminSecretKey = process.env.NEXT_PUBLIC_ADMIN_SECRT_KEY
 
-    console.log(adminSecretKey)
-
     if (formdata.password.length < 6) {
       onClose()
       showToast("error", "Invalid secret key, please try again.")
