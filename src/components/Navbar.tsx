@@ -57,7 +57,6 @@ const Navbar: React.FC = () => {
 
   const { cartItems, wishlistItems } = dataContext
   const dispatch = useDispatch()
-  const userData = useSelector((state: RootState) => state.user.user)
   const [open, setOpen] = useState<boolean>(false)
   const [activeIndex, setActiveIndex] = useState<string | undefined>()
 
