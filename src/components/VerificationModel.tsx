@@ -35,7 +35,7 @@ export const VerificationModel = ({
   const handleVerify = (e: React.FormEvent) => {
     e.preventDefault()
 
-    const adminSecretKey = process.env.NEXT_PUBLIC_ADMIN_SECRT_KEY
+    const adminSecretKey = process.env.ADMIN_SECRT_KEY
 
     if (formdata.password.length < 6) {
       onClose()
