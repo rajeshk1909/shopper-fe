@@ -8,7 +8,7 @@ import Link from "next/link"
 import { DataContext } from "@/context/DataProvider"
 import Loader from "@/components/Loader"
 
-const  CartPage : React.FC = () => {
+const CartPage: React.FC = () => {
   const dataContext = useContext(DataContext)
 
   if (!dataContext) {
@@ -18,10 +18,16 @@ const  CartPage : React.FC = () => {
   const { cartItems, setCartItems, loading } = dataContext
 
   const updateQuantity = (index: number, newQuantity: number) => {
-    if (newQuantity < 1 || newQuantity > 10) return
     setCartItems((prevItems) => {
       const updatedItems = [...prevItems]
-      updatedItems[index].quantity = newQuantity
+      const currentItem = updatedItems[index]
+      if (
+        currentItem?.quantity !== undefined &&
+        newQuantity >= 1 &&
+        newQuantity <= 10
+      ) {
+        currentItem.quantity = newQuantity
+      }
       return updatedItems
     })
   }
@@ -30,10 +36,11 @@ const  CartPage : React.FC = () => {
     setCartItems((prevItems) => prevItems.filter((_, i) => i !== index))
   }
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.discountPrice * item.quantity,
-    0
-  )
+  const subtotal = cartItems.reduce((acc, item) => {
+    const quantity = item.quantity ?? 1 // Default to 1 if undefined
+    return acc + item.discountPrice * quantity
+  }, 0)
+
   const shipping = 99
   const total = subtotal + shipping
 
@@ -55,7 +62,7 @@ const  CartPage : React.FC = () => {
         {loading && <Loader />}
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-          {!loading &&  (
+          {!loading && (
             <div className='lg:col-span-2 space-y-4'>
               {cartItems.length > 0 ? (
                 cartItems.map((item, index) => (
@@ -94,16 +101,16 @@ const  CartPage : React.FC = () => {
                             whileTap={{ scale: 0.9 }}
                             className='p-2'
                             onClick={() =>
-                              updateQuantity(index, item.quantity - 1)
+                              updateQuantity(index, (item.quantity ?? 1) - 1)
                             }>
                             <Minus className='w-4 h-4' />
                           </motion.button>
-                          <span className='px-4'>{item.quantity}</span>
+                          <span className='px-4'>{item.quantity ?? 1}</span>
                           <motion.button
                             whileTap={{ scale: 0.9 }}
                             className='p-2'
                             onClick={() =>
-                              updateQuantity(index, item.quantity + 1)
+                              updateQuantity(index, (item.quantity ?? 1) + 1)
                             }>
                             <Plus className='w-4 h-4' />
                           </motion.button>
