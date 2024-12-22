@@ -7,7 +7,7 @@ export interface ProductsDataTypes {
   discountPercentage: number
   price: number
   starRating: number
-  quantity:number
+  quantity?:number
 }
 
 export interface CartTypes {
