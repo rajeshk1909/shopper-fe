@@ -16,9 +16,8 @@ import { FaRegHeart } from "react-icons/fa"
 import { RiMenuUnfold4Line, RiMenuFold4Line } from "react-icons/ri"
 import MobileNavbar from "./MobileNavbar"
 import { usePathname } from "next/navigation"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { clearUser } from "@/store/features/userSlice"
-import { RootState } from "@/store/store"
 import { DataContext } from "@/context/DataProvider"
 
 export type menuItemsType = {
