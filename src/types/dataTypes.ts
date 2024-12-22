@@ -8,3 +8,23 @@ export interface ProductsDataTypes {
   price: number
   starRating: number
 }
+
+export interface CartTypes {
+  product: string
+  quantity: number
+  _id : string
+}
+
+export interface UserDataTypes {
+  _id: string
+  name: string
+  role: string
+  wishlist: Array<string>
+  cart:Array<CartTypes>
+}
+
+export interface AdminData {
+  _id: string,
+  name: string
+  role : string
+}

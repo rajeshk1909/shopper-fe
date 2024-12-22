@@ -12,12 +12,13 @@ import {
   MdAddShoppingCart,
   MdOutlineLogout,
 } from "react-icons/md"
-import { FaRegHeart, FaTachometerAlt } from "react-icons/fa"
+import { FaRegHeart } from "react-icons/fa"
 import { RiMenuUnfold4Line, RiMenuFold4Line } from "react-icons/ri"
 import MobileNavbar from "./MobileNavbar"
 import { usePathname } from "next/navigation"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { clearUser } from "@/store/features/userSlice"
+import { RootState } from "@/store/store"
 
 export type menuItemsType = {
   label: string
@@ -36,11 +37,6 @@ const menuItems: menuItemsType[] = [
   { label: "Men", icon: <MdMale />, to: "/men" },
   { label: "Women", icon: <MdFemale />, to: "/women" },
   { label: "Kids", icon: <MdChildCare />, to: "/kids" },
-  {
-    label: "Admin",
-    to: "/admin",
-    icon: <FaTachometerAlt />,
-  },
 ]
 
 const userActions: userItemsTypes[] = [
@@ -51,6 +47,7 @@ const userActions: userItemsTypes[] = [
 
 const Navbar: React.FC = () => {
   const dispatch = useDispatch()
+  const userData = useSelector((state: RootState) => state.user.user)
   const [open, setOpen] = useState<boolean>(false)
   const [activeIndex, setActiveIndex] = useState<string | undefined>()
 
@@ -91,7 +88,7 @@ const Navbar: React.FC = () => {
       </div>
       <div className='md:flex items-center space-x-7 hidden'>
         <Link href='/cart' passHref>
-          <Badge badgeContent={1} color='primary'>
+          <Badge badgeContent={userData?.cart.length} color='primary'>
             <MdAddShoppingCart
               className={`w-6 h-6 ${
                 activeIndex === "Cart" ? "text-blue-800" : "text-[#555]"
@@ -101,7 +98,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         <Link href='/wishlist' passHref>
-          <Badge badgeContent={4} color='primary'>
+          <Badge badgeContent={userData?.wishlist.length} color='primary'>
             <FaRegHeart
               className={`w-5 h-5 ${
                 activeIndex === "Wishlist" ? "text-blue-800" : "text-[#555]"

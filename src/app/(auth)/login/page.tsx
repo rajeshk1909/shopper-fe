@@ -37,6 +37,8 @@ const Login = () => {
 
   const [loading, setLoading] = useState<boolean>(false)
 
+  const [userData , setUserData] = useState(null)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -74,15 +76,15 @@ const Login = () => {
 
       if (response.status === 200) {
         showToast("success", response.data.message)
+        setUserData(response.data.user)
 
         dispatch(
           setUser({
-            name: response.data.user.name,
-            email: response.data.user.email,
             role: response.data.user.role,
-            token: response.data.token,
-            id: response.data.user.id,
-            isUserLogin: true,
+            _id: response.data.user.id,
+            cart: response.data.user.cart,
+            name: response.data.user.name,
+            wishlist : response.data.user.wishlist
           })
         )
         setFormData({
@@ -106,6 +108,8 @@ const Login = () => {
       setLoading(false)
     }
   }
+
+  console.log(userData)
 
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 px-6 lg:px-8'>

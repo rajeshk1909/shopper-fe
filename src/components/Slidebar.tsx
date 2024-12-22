@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation"
 import { RiMenuFold4Line, RiMenuUnfold4Line } from "react-icons/ri"
 import MobileNavbar from "./MobileNavbar"
 import { FaUserPlus } from "react-icons/fa6"
-import { MdHome, MdOutlineLogout } from "react-icons/md"
+import { MdOutlineLogout } from "react-icons/md"
 import { useDispatch } from "react-redux"
 import { clearUser } from "@/store/features/userSlice"
 
@@ -20,7 +20,6 @@ type menuItemsType = {
 }
 
 const menuItems: menuItemsType[] = [
-  { label: "Home", icon: <MdHome />, to: "/" },
   {
     label: "Dashboard",
     to: "/admin",

@@ -2,11 +2,13 @@
 
 import React from "react"
 import { Search, Bell } from "lucide-react"
-import { useSelector } from "react-redux"
-import { RootState } from "@/store/store"
+import { AdminData } from "@/types/dataTypes"
 
-const AdminHeader = () => {
-  const user = useSelector((state: RootState) => state.user.user)
+interface AdminHeaderPropsTypes {
+  adminData : AdminData
+}
+
+const AdminHeader: React.FC<AdminHeaderPropsTypes> = ({ adminData }) => {
 
   // Get the initials from the user's name for the avatar
   const getInitials = (name: string) => {
@@ -22,7 +24,7 @@ const AdminHeader = () => {
       <div className='flex items-center justify-between h-20 px-8'>
         <div className='flex items-center gap-6'>
           <h1 className='md:text-3xl text-xl font-extrabold text-gray-800 bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
-            Welcome, {user?.name ? user.name : "Admin"}
+            Welcome, {adminData?.name ? adminData.name : "Admin"}
           </h1>
         </div>
 
@@ -43,7 +45,7 @@ const AdminHeader = () => {
           </button>
 
           <div className='h-10 w-10 rounded-full bg-indigo-200 flex items-center justify-center text-indigo-600 font-semibold'>
-            {user?.name ? getInitials(user.name) : "JD"}
+            {adminData?.name ? getInitials(adminData.name) : "JD"}
           </div>
         </div>
       </div>
