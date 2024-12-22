@@ -6,7 +6,7 @@ import { DataContext } from "@/context/DataProvider"
 import { ProductsDataTypes } from "@/types/dataTypes"
 import React, { useContext, useMemo } from "react"
 
-const WomensPage = () => {
+const WomensPage : React.FC = () => {
   const dataContext = useContext(DataContext)
 
   if (!dataContext) {

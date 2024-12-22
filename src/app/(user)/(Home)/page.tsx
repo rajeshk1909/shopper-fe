@@ -8,7 +8,7 @@ import { DataContext } from "@/context/DataProvider"
 import Image from "next/image"
 import React, { useContext, useMemo } from "react"
 
-const Home = () => {
+const Home: React.FC = () => {
   const dataContext = useContext(DataContext)
 
   if (!dataContext) {

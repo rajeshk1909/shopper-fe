@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import logo from "../../public/logo.png"
 import Image from "next/image"
 import Link from "next/link"
@@ -19,6 +19,7 @@ import { usePathname } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux"
 import { clearUser } from "@/store/features/userSlice"
 import { RootState } from "@/store/store"
+import { DataContext } from "@/context/DataProvider"
 
 export type menuItemsType = {
   label: string
@@ -46,6 +47,15 @@ const userActions: userItemsTypes[] = [
 ]
 
 const Navbar: React.FC = () => {
+  const dataContext = useContext(DataContext)
+
+  if (!dataContext) {
+    throw new Error(
+      "ProductsContainer must be used within a DataContextProvider"
+    )
+  }
+
+  const { cartItems, wishlistItems } = dataContext
   const dispatch = useDispatch()
   const userData = useSelector((state: RootState) => state.user.user)
   const [open, setOpen] = useState<boolean>(false)
@@ -88,7 +98,7 @@ const Navbar: React.FC = () => {
       </div>
       <div className='md:flex items-center space-x-7 hidden'>
         <Link href='/cart' passHref>
-          <Badge badgeContent={userData?.cart.length} color='primary'>
+          <Badge badgeContent={cartItems.length} color='primary'>
             <MdAddShoppingCart
               className={`w-6 h-6 ${
                 activeIndex === "Cart" ? "text-blue-800" : "text-[#555]"
@@ -98,7 +108,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         <Link href='/wishlist' passHref>
-          <Badge badgeContent={userData?.wishlist.length} color='primary'>
+          <Badge badgeContent={wishlistItems.length} color='primary'>
             <FaRegHeart
               className={`w-5 h-5 ${
                 activeIndex === "Wishlist" ? "text-blue-800" : "text-[#555]"

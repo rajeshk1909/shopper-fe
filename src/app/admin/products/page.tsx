@@ -9,7 +9,7 @@ import { ProductsDataTypes } from "@/types/dataTypes"
 import api from "@/Utility/axiosInstance"
 import React, { useContext, useState } from "react"
 
-const ManageProducts = () => {
+const ManageProducts : React.FC = () => {
   const dataContext = useContext(DataContext)
 
   const { showToast } = useToast()

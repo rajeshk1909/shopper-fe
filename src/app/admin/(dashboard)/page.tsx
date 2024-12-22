@@ -2,8 +2,9 @@
 import { StatCard } from "@/components/StatCard"
 import { RevenueChart } from "@/components/RevenueChart"
 import { statsData } from "@/const/statsData"
+import React from "react"
 
-const AdminDashboard = () => {
+const AdminDashboard : React.FC = () => {
   return (
     <div className='min-h-screen bg-gradient-to-r from-gray-100 to-gray-200'>
 

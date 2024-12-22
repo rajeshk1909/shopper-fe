@@ -22,7 +22,7 @@ interface Errors {
   password: string
 }
 
-const Login = () => {
+const Login : React.FC = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { showToast } = useToast()

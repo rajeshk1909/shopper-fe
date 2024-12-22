@@ -19,7 +19,7 @@ interface FormData {
   category: string
 }
 
-const AddProduct = () => {
+const AddProduct: React.FC = () => {
   const { showToast } = useToast()
 
   const [image, setImage] = useState<File | null>(null)

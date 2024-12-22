@@ -6,7 +6,7 @@ import { FaNodeJs, FaServer, FaDatabase } from "react-icons/fa"
 import Logo from "../../public/next.svg"
 
 import { cn } from "@/lib/utils"
-import { AnimatedBeam } from "@/components/animated-beam"
+import { AnimatedBeam } from "@/components/AnimatedBeam"
 import Image from "next/image"
 
 const Circle = forwardRef<
@@ -27,7 +27,7 @@ const Circle = forwardRef<
 
 Circle.displayName = "Circle"
 
-const Loader = ({ className }: { className?: string }) => {
+const Loader : React.FC = ({ className }: { className?: string }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   //   const div1Ref = useRef<HTMLDivElement>(null)
   const div2Ref = useRef<HTMLDivElement>(null)

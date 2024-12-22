@@ -10,7 +10,6 @@ interface AdminHeaderPropsTypes {
 
 const AdminHeader: React.FC<AdminHeaderPropsTypes> = ({ adminData }) => {
 
-  // Get the initials from the user's name for the avatar
   const getInitials = (name: string) => {
     return name
       .split(" ")

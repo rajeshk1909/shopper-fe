@@ -21,7 +21,7 @@ interface Errors {
   password: string
 }
 
-const AdminLogin = () => {
+const AdminLogin : React.FC = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { showToast } = useToast()

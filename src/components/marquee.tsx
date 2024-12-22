@@ -9,7 +9,7 @@ interface MarqueeProps {
   repeat?: number;
 }
 
-export default function Marquee({
+const Marquee = ({
   className,
   reverse,
   pauseOnHover = true,
@@ -17,7 +17,7 @@ export default function Marquee({
   vertical = false,
   repeat = 4,
   ...props
-}: MarqueeProps) {
+}: MarqueeProps) => {
   return (
     <div
       {...props}
@@ -48,3 +48,5 @@ export default function Marquee({
     </div>
   );
 }
+
+export default Marquee
