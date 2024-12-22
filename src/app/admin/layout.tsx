@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation"
 import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
 
-type layoutProps = {
+type LayoutProps = {
   children: React.ReactNode
 }
 
-const layout: React.FC<layoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter()
 
   const adminData = useSelector((state: RootState) => state.user.admin)
@@ -22,10 +22,10 @@ const layout: React.FC<layoutProps> = ({ children }) => {
     } else if (userData) {
       router.back()
     }
-  })
+  }, [adminData, userData, router])
 
   if (!adminData) {
-    return null
+    return null 
   }
 
   return (
@@ -42,4 +42,4 @@ const layout: React.FC<layoutProps> = ({ children }) => {
   )
 }
 
-export default layout
+export default Layout

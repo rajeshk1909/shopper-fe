@@ -21,7 +21,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     } else if (adminData) {
       router.back()
     }
-  }, [userData, router])
+  }, [userData, router, adminData])
 
   if (!userData) {
     return null
