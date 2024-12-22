@@ -36,10 +36,11 @@ const CartPage: React.FC = () => {
     setCartItems((prevItems) => prevItems.filter((_, i) => i !== index))
   }
 
-  const subtotal = cartItems.reduce((acc, item) => {
-    const quantity = item.quantity ?? 1 // Default to 1 if undefined
-    return acc + item.discountPrice * quantity
-  }, 0)
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.discountPrice * (item.quantity ?? 1),
+    0
+  )
+
 
   const shipping = 99
   const total = subtotal + shipping
