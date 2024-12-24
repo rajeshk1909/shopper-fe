@@ -135,8 +135,10 @@ export const ProductDetailPage = () => {
         <p className='text-lg leading-relaxed text-center'>
           This product is a hot favorite and is available at a great discount!
           Crafted with precision, ensuring top-tier quality and performance.
-          Do not miss out on this deal—grab it while the price is still low!
+          Don&apos;t miss out on this deal&apos;&ndash;grab it while the price
+          is still low!
         </p>
+
         <div className='mt-6 flex justify-center'>
           <button className='px-8 py-3 bg-white text-red-500 font-semibold rounded-full shadow-md transform hover:scale-105 transition duration-300'>
             Grab the Deal
