@@ -19,6 +19,7 @@ import { usePathname } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { clearUser } from "@/store/features/userSlice"
 import { DataContext } from "@/context/DataProvider"
+import { motion } from "framer-motion"
 
 export type menuItemsType = {
   label: string
@@ -77,20 +78,25 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <div className='flex items-center z-50 justify-between py-4 px-10 bg-[#ededf0]'>
+    <div className='flex items-center z-50 justify-between py-4 px-10 sticky top-0  bg-white/80 backdrop-blur-md'>
       <Link href='/'>
         <Image src={logo} alt='Logo' className='h-10 w-10' />
       </Link>
       {/* Large Screen */}
       <div className='space-x-7 md:flex hidden'>
-        {menuItems.map((nav: menuItemsType, index: number) => (
-          <Link
-            key={index}
-            href={nav.to}
-            className={`${
-              activeIndex === nav.label ? "text-blue-600" : "text-[#555]"
-            }`}>
-            {nav.label}
+        {menuItems.map((item: menuItemsType, index: number) => (
+          <Link key={index} href={item.to}>
+            <motion.div
+              className={`flex items-center space-x-1 px-3 py-2 rounded-full transition-colors ${
+                activeIndex === item.label
+                  ? "bg-blue-50 text-blue-600"
+                  : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}>
+              {item.icon}
+              <span className='text-sm font-medium'>{item.label}</span>
+            </motion.div>
           </Link>
         ))}
       </div>

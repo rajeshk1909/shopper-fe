@@ -1,5 +1,3 @@
-// src/app/products/[id]/page.tsx
-
 "use client"
 
 import { useContext, useEffect, useState } from "react"
@@ -10,6 +8,7 @@ import { ProductsDataTypes } from "@/types/dataTypes"
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import Loader from "@/components/Loader"
+import { motion } from "framer-motion"
 
 const ProductDetailPage = () => {
   const params = useParams<{ id: string }>()
@@ -44,17 +43,13 @@ const ProductDetailPage = () => {
 
   return (
     <div className='px-[10%] sm:py-16 py-10 flex flex-col items-center'>
-      {/* Header Section */}
-      <div className='flex items-center mb-8 w-full'>
+      <div className="flex w-full mb-8">
         <Link
           href='/'
-          className='md:flex items-center hidden text-gray-600 hover:text-gray-800 transition-colors duration-200'>
+          className='inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200'>
           <ArrowLeft className='w-5 h-5 mr-2' />
-          Continue Shopping
+          <span className='text-lg'>Back to Products</span>
         </Link>
-        <h1 className='text-3xl font-bold text-center flex-1'>
-          Product Details
-        </h1>
       </div>
 
       <div className='flex flex-col md:flex-row gap-5 xl:gap-12 items-center w-full'>
@@ -129,24 +124,30 @@ const ProductDetailPage = () => {
         </div>
       </div>
 
-      <div className='mt-12 p-8 rounded-lg bg-gradient-to-r from-red-500 to-pink-600 text-white shadow-xl flex flex-col items-center'>
-        <h2 className='text-4xl font-extrabold mb-4 text-center'>
-          Hot Deal!{" "}
-          <span className='text-xl font-normal'>Limited Time Offer</span>
-        </h2>
-        <p className='text-lg leading-relaxed text-center'>
-          This product is a hot favorite and is available at a great discount!
-          Crafted with precision, ensuring top-tier quality and performance.
-          Don&apos;t miss out on this deal&apos;&ndash;grab it while the price
-          is still low!
-        </p>
-
-        <div className='mt-6 flex justify-center'>
-          <button className='px-8 py-3 bg-white text-red-500 font-semibold rounded-full shadow-md transform hover:scale-105 transition duration-300'>
-            Grab the Deal
-          </button>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className='my-16 w-full'>
+        <div className='relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-600 p-8 text-white'>
+          <div className='relative z-10'>
+            <h2 className='text-3xl font-bold mb-4'>Limited Time Offer!</h2>
+            <p className='text-lg opacity-90 max-w-2xl'>
+              Don't miss out on this exclusive deal! Get this premium product at
+              an unbeatable price. Our limited-time offer brings you exceptional
+              quality and value.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className='mt-6 px-8 py-3 bg-white text-indigo-600 font-semibold rounded-full hover:bg-opacity-90 transition-colors duration-200'>
+              Claim Offer
+            </motion.button>
+          </div>
+          <div className='absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full transform translate-x-1/2 -translate-y-1/2' />
+          <div className='absolute bottom-0 left-0 w-48 h-48 bg-white opacity-10 rounded-full transform -translate-x-1/2 translate-y-1/2' />
         </div>
-      </div>
+      </motion.div>
 
       <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8'>
         <div className='p-6 bg-white shadow-lg rounded-xl hover:shadow-xl transition duration-300'>

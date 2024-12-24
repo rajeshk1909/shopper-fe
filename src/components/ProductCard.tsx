@@ -1,7 +1,7 @@
 "use client"
 
 import { useContext, useState } from "react"
-import { Star, TrendingDown, Heart } from "lucide-react"
+import { Star, TrendingDown, Heart, ShoppingBag } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { DataContext } from "@/context/DataProvider"
@@ -40,6 +40,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const handleAddToCart = (id: string) => {
     addToCart(id)
   }
+
+  const isInCart = cartItems.some((item) => item._id === product._id)
+  const isInWishlist = wishlistItems.some((item) => item._id === product._id)
 
   return (
     <motion.div
@@ -106,18 +109,27 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             <span className='bg-blue-100 text-blue-600 px-2 py-1 rounded-full'>
               {product.category}
             </span>
-            {wishlistItems.some((item) => item._id === product._id) ? (
-              <Heart
-                className='w-6 h-6 text-red-500 hover:cursor-pointer fill-current'
-                onClick={() => removeWishlist(product._id)}
-              />
-            ) : (
-              <Heart
-                className='w-6 h-6 text-gray-500 hover:cursor-pointer'
-                onClick={() => addToWishlist(product._id)}
-              />
-            )}
+            <div className='flex items-center gap-1'>
+              <ShoppingBag className='h-4 w-4' />
+              <p>In Stock</p>
+            </div>
           </div>
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() =>
+              isInWishlist
+                ? removeWishlist(product._id)
+                : addToWishlist(product._id)
+            }
+            className={`absolute top-3 right-3 p-1.5 rounded-full shadow-lg transition-all duration-200 ${
+              isInWishlist
+                ? "bg-red-500 text-white"
+                : "bg-white text-gray-400 hover:bg-gray-100"
+            }`}>
+            <Heart className={`w-4 h-4 ${isInWishlist ? "fill-white" : ""}`} />
+          </motion.button>
 
           {/* Pricing and Add to Cart */}
           <div className='flex justify-between items-center'>
@@ -135,23 +147,20 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                 Price dropped
               </div>
             </div>
-            {cartItems.some((item) => item._id === product._id) ? (
-              <motion.button
-                onClick={() => removeCart(product._id)}
-                className='bg-red-500 text-white px-3 py-1 rounded-full font-medium shadow hover:bg-red-600 text-sm'
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}>
-                Remove
-              </motion.button>
-            ) : (
-              <motion.button
-                onClick={() => handleAddToCart(product._id)}
-                className='bg-green-500 text-white px-3 py-1 rounded-full font-medium shadow hover:bg-green-600 text-sm'
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}>
-                Add to Cart
-              </motion.button>
-            )}
+
+            <motion.button
+              onClick={() =>
+                isInCart ? removeCart(product._id) : addToCart(product._id)
+              }
+              className={` text-white px-3 py-1 ${
+                isInCart
+                  ? "bg-red-500 hover:bg-red-600"
+                  : "bg-green-500 hover:bg-green-600"
+              } rounded-full font-medium shadow  text-sm`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}>
+              {isInCart ? "Remove" : "Add to Cart"}
+            </motion.button>
           </div>
         </div>
       </div>
