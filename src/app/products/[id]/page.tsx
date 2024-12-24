@@ -1,3 +1,5 @@
+// src/app/products/[id]/page.tsx
+
 "use client"
 
 import { useContext, useEffect, useState } from "react"
@@ -9,9 +11,9 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import Loader from "@/components/Loader"
 
-export const ProductDetailPage  = () => {
-   const params = useParams<{ id: string }>()
-   const { id } = params
+const ProductDetailPage = () => {
+  const params = useParams<{ id: string }>()
+  const { id } = params
   const dataContext = useContext(DataContext)
 
   if (!dataContext) {
@@ -41,7 +43,7 @@ export const ProductDetailPage  = () => {
   if (!product) return <Loader />
 
   return (
-    <div className='px-[10%] sm:py-16  py-10 flex flex-col items-center'>
+    <div className='px-[10%] sm:py-16 py-10 flex flex-col items-center'>
       {/* Header Section */}
       <div className='flex items-center mb-8 w-full'>
         <Link
