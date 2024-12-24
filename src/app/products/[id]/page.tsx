@@ -9,7 +9,7 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import Loader from "@/components/Loader"
 
-export const ProductDetailPage = () => {
+export const ProductDetail  = () => {
   const params = useParams()
   const { id } = params
   const dataContext = useContext(DataContext)
@@ -174,4 +174,4 @@ export const ProductDetailPage = () => {
   )
 }
 
-export default ProductDetailPage
+export default ProductDetail
