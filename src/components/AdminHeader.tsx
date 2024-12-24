@@ -22,7 +22,7 @@ const AdminHeader: React.FC<AdminHeaderPropsTypes> = ({ adminData }) => {
     <header className='sticky top-0 bg-gray-50 shadow-md z-40 border-b'>
       <div className='flex items-center justify-between h-20 px-8'>
         <div className='flex items-center gap-6'>
-          <h1 className='md:text-3xl text-xl font-extrabold text-gray-800 bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
+          <h1 className='md:text-3xl text-xl font-extrabold capitalize text-gray-800 bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
             Welcome, {adminData?.name ? adminData.name : "Admin"}
           </h1>
         </div>
