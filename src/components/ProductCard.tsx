@@ -13,7 +13,6 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
-
   const router = useRouter()
   const dataContext = useContext(DataContext)
 
@@ -34,10 +33,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   const [isHovered, setIsHovered] = useState(false)
 
-
-
   const handleQuickView = (id: string) => {
-    router.push(`/products/${product._id}`)
+    router.push(`/products/${id}`)
   }
 
   const handleAddToCart = (id: string) => {

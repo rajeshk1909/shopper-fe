@@ -1,4 +1,4 @@
-import { AdminData, CartTypes, UserDataTypes } from "@/types/dataTypes";
+import { AdminData, UserDataTypes } from "@/types/dataTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface InitialState {
@@ -27,23 +27,6 @@ const userSlice = createSlice({
       state.admin = action.payload;
       state.user = null
     },
-    // setCart(state, action: PayloadAction<CartTypes[]>) {
-    //    state.cart = action.payload
-    // },
-    //     setWishlist(state, action: PayloadAction<string[]>) {
-    //    state.wishlist = action.payload
-    // },
-
-    // updateCart(state, action: PayloadAction<CartTypes>) {
-    //   state.cart = state.cart.map((product) =>
-    //     product._id === action.payload._id ? { ...product, ...action.payload } : product
-    //   );
-    // },
-    // removeFromCart(state, action: PayloadAction<string>) {
-    //   state.cart = state.cart.filter(
-    //     (product: CartTypes) => product._id !== action.payload
-    //   );
-    // },
   },
 });
 
