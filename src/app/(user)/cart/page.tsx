@@ -7,6 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { DataContext } from "@/context/DataProvider"
 import Loader from "@/components/Loader"
+import { CartDataTypes } from "@/types/dataTypes"
 
 const CartPage: React.FC = () => {
   const dataContext = useContext(DataContext)
@@ -15,35 +16,23 @@ const CartPage: React.FC = () => {
     throw new Error("CartPage must be used within a DataContextProvider")
   }
 
-  const { cartItems, setCartItems, loading } = dataContext
-
-  const updateQuantity = (index: number, newQuantity: number) => {
-    setCartItems((prevItems) => {
-      const updatedItems = [...prevItems]
-      const currentItem = updatedItems[index]
-      if (
-        currentItem?.quantity !== undefined &&
-        newQuantity >= 1 &&
-        newQuantity <= 10
-      ) {
-        currentItem.quantity = newQuantity
-      }
-      return updatedItems
-    })
-  }
-
-  const removeItem = (index: number) => {
-    setCartItems((prevItems) => prevItems.filter((_, i) => i !== index))
-  }
+  const { cartItems, loading, removeToCart, updateCart } = dataContext
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.discountPrice * (item.quantity ?? 1),
     0
   )
 
+  const handleRemove = (id: string) => {
+    removeToCart(id)
+  }
 
-  const shipping = 99
-  const total = subtotal + shipping
+  const handleUpadte = (id: string, newQuantity: number) => {
+    updateCart(id , newQuantity)
+  }
+
+  const shipping = subtotal > 10000 ? "free" : 500
+  const total = shipping === "free" ? subtotal : shipping + subtotal
 
   return (
     <div className='min-h-screen bg-gray-50 py-8'>
@@ -66,7 +55,7 @@ const CartPage: React.FC = () => {
           {!loading && (
             <div className='lg:col-span-2 space-y-4'>
               {cartItems.length > 0 ? (
-                cartItems.map((item, index) => (
+                cartItems.map((item: CartDataTypes) => (
                   <motion.div
                     key={item._id}
                     initial={{ opacity: 0, y: 20 }}
@@ -102,23 +91,23 @@ const CartPage: React.FC = () => {
                             whileTap={{ scale: 0.9 }}
                             className='p-2'
                             onClick={() =>
-                              updateQuantity(index, (item.quantity ?? 1) - 1)
+                              handleUpadte(item._id, (item.quantity) - 1)
                             }>
                             <Minus className='w-4 h-4' />
                           </motion.button>
-                          <span className='px-4'>{item.quantity ?? 1}</span>
+                          <span className='px-4'>{item.quantity}</span>
                           <motion.button
                             whileTap={{ scale: 0.9 }}
                             className='p-2'
                             onClick={() =>
-                              updateQuantity(index, (item.quantity ?? 1) + 1)
+                              handleUpadte(item._id, (item.quantity) + 1)
                             }>
                             <Plus className='w-4 h-4' />
                           </motion.button>
                         </div>
                         <motion.button
                           whileTap={{ scale: 0.9 }}
-                          onClick={() => removeItem(index)}
+                          onClick={() => handleRemove(item._id)}
                           className='text-red-500 hover:text-red-600'>
                           <Trash2 className='w-5 h-5' />
                         </motion.button>

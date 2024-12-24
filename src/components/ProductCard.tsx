@@ -1,30 +1,33 @@
 "use client"
 
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Star, ShoppingBag, TrendingUp } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { ProductDetailModal } from "./ProductDetailModal"
-
-export interface Product {
-  name: string
-  price: number
-  discountPercentage: number
-  category: string
-  starRating: number
-  image: string
-  discountPrice: number
-}
+import { DataContext } from "@/context/DataProvider"
+import { ProductsDataTypes } from "@/types/dataTypes"
 
 interface ProductCardProps {
-  product: Product
+  product: ProductsDataTypes
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
+  const dataContext = useContext(DataContext)
+
+  if (!dataContext) {
+    throw new Error(
+      "ProductsContainer must be used within a DataContextProvider"
+    )
+  }
+
+  const { addToCart } = dataContext
+
   const [isHovered, setIsHovered] = useState(false)
 
   const [open, setOpen] = useState<boolean>(false)
-  const [detailProduct, setDetailProduct] = useState<Product>({
+  const [detailProduct, setDetailProduct] = useState<ProductsDataTypes>({
+    _id: "",
     name: "",
     price: 0,
     discountPercentage: 0,
@@ -38,10 +41,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     setOpen(false)
   }
 
-  const handleQuickView = (product: Product) => {
+  const handleQuickView = (product: ProductsDataTypes) => {
     setOpen(true)
     setDetailProduct(product)
     setIsHovered(false)
+  }
+
+  const handleAddToCart = (id : string) => {
+    addToCart(id)
   }
 
   return (
@@ -71,7 +78,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <div className='absolute top-3 left-3 group-hover:top-4 group-hover:left-5 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium'>
             -{product.discountPercentage}%
           </div>
-          
+
           <motion.div
             className='absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity'
             initial={false}
@@ -88,7 +95,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Content Section */}
         <div className='p-4 space-y-2'>
-          {/* Title and Rating */}
           <div className='flex justify-between items-start'>
             <h3 className='text-sm font-medium truncate'>{product.name}</h3>
             <div className='flex items-center'>
@@ -133,6 +139,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               </div>
             </div>
             <motion.button
+              onClick={() => handleAddToCart(product._id)}
               className='bg-green-500 text-white px-3 py-1 rounded-full font-medium shadow hover:bg-green-600 text-sm'
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}>

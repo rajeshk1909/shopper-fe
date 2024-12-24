@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter()
 
   const userData = useSelector((state: RootState) => state.user.user)
-  const adminData = useSelector((state : RootState) => state.user.admin)
+  const adminData = useSelector((state: RootState) => state.user.admin)
 
   useEffect(() => {
     if (!userData && !adminData) {

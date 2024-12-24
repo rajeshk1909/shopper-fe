@@ -7,7 +7,18 @@ export interface ProductsDataTypes {
   discountPercentage: number
   price: number
   starRating: number
-  quantity?:number
+}
+
+export interface CartDataTypes {
+  _id: string
+  image: string
+  name: string
+  category: string
+  discountPrice: number
+  discountPercentage: number
+  price: number
+  starRating: number
+  quantity:number
 }
 
 export interface CartTypes {
@@ -16,12 +27,11 @@ export interface CartTypes {
   _id : string
 }
 
+
 export interface UserDataTypes {
   _id: string
   name: string
   role: string
-  wishlist: Array<string>
-  cart:Array<CartTypes>
 }
 
 export interface AdminData {

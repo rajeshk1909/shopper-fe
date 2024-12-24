@@ -2,7 +2,9 @@
 import { Button } from "@/components/Button"
 import { Input } from "@/components/Input"
 import { useToast } from "@/context/ToastProvider"
+import { setCart } from "@/store/features/cartSlice"
 import { setUser } from "@/store/features/userSlice"
+import { setWishlist } from "@/store/features/wishlistSlice"
 import api from "@/Utility/axiosInstance"
 import axios from "axios"
 import { Shield } from "lucide-react"
@@ -22,7 +24,7 @@ interface Errors {
   password: string
 }
 
-const Login : React.FC = () => {
+const Login: React.FC = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { showToast } = useToast()
@@ -36,8 +38,6 @@ const Login : React.FC = () => {
   })
 
   const [loading, setLoading] = useState<boolean>(false)
-
-  const [userData , setUserData] = useState(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -76,17 +76,16 @@ const Login : React.FC = () => {
 
       if (response.status === 200) {
         showToast("success", response.data.message)
-        setUserData(response.data.user)
-
         dispatch(
           setUser({
             role: response.data.user.role,
             _id: response.data.user.id,
-            cart: response.data.user.cart,
             name: response.data.user.name,
-            wishlist : response.data.user.wishlist
           })
         )
+        dispatch(setCart(response.data.user.cart))
+        dispatch(setWishlist(response.data.user.wishlist))
+
         setFormData({
           email: "",
           password: "",
@@ -108,8 +107,6 @@ const Login : React.FC = () => {
       setLoading(false)
     }
   }
-
-  console.log(userData)
 
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 px-6 lg:px-8'>

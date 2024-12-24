@@ -22,7 +22,6 @@ const Home: React.FC = () => {
   const shuffledProduct = useMemo(() => {
     return products.sort(() => Math.random() - 0.5)
   }, [products])
-
   return (
     <div>
       <Banner />
