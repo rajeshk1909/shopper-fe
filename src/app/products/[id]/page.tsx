@@ -43,7 +43,7 @@ const ProductDetailPage = () => {
 
   return (
     <div className='px-[10%] sm:py-16 py-10 flex flex-col items-center'>
-      <div className="flex w-full mb-8">
+      <div className='flex w-full mb-8'>
         <Link
           href='/'
           className='inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200'>
@@ -133,9 +133,9 @@ const ProductDetailPage = () => {
           <div className='relative z-10'>
             <h2 className='text-3xl font-bold mb-4'>Limited Time Offer!</h2>
             <p className='text-lg opacity-90 max-w-2xl'>
-              Don't miss out on this exclusive deal! Get this premium product at
-              an unbeatable price. Our limited-time offer brings you exceptional
-              quality and value.
+              Don&apos;t miss out on this exclusive deal! Get this premium
+              product at an unbeatable price. Our limited-time offer brings you
+              exceptional quality and value.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}

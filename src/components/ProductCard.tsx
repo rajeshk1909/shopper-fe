@@ -37,9 +37,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     router.push(`/products/${id}`)
   }
 
-  const handleAddToCart = (id: string) => {
-    addToCart(id)
-  }
 
   const isInCart = cartItems.some((item) => item._id === product._id)
   const isInWishlist = wishlistItems.some((item) => item._id === product._id)
