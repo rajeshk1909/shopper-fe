@@ -1,6 +1,7 @@
 "use client"
 
 import { setCart } from "@/store/features/cartSlice"
+import { setWishlist } from "@/store/features/wishlistSlice"
 import { RootState } from "@/store/store"
 import { CartDataTypes, ProductsDataTypes } from "@/types/dataTypes"
 import api from "@/Utility/axiosInstance"
@@ -16,8 +17,10 @@ interface DataContextTypes {
   setWishlistItems: React.Dispatch<React.SetStateAction<ProductsDataTypes[]>>
   setCartItems: React.Dispatch<React.SetStateAction<CartDataTypes[]>>
   addToCart: (id: string) => void
-  removeToCart: (id: string) => void
+  removeCart: (id: string) => void
   updateCart: (id: string, updateCart: number) => void
+  removeWishlist: (id: string) => void
+  addToWishlist: (id: string) => void
 }
 
 export const DataContext = createContext<DataContextTypes | undefined>(
@@ -33,12 +36,14 @@ export const DataContextProvider: React.FC<DataContextProviderPropsTypes> = ({
 }) => {
   const dispatch = useDispatch()
 
+  // Fetch Data From Loacl Storage
   const user = useSelector((state: RootState) => state.user.user)
   const wishlistData = useSelector(
     (state: RootState) => state.wishlist.wishlist
   )
-
   const cartData = useSelector((state: RootState) => state.cart.cart)
+
+  // State Management
   const [products, setProducts] = useState<ProductsDataTypes[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -46,34 +51,7 @@ export const DataContextProvider: React.FC<DataContextProviderPropsTypes> = ({
 
   const [cartItems, setCartItems] = useState<CartDataTypes[]>([])
 
-  useEffect(() => {
-    if (cartData) {
-      const updatedCart = products.filter((product) =>
-        cartData.some((cartItem) => cartItem.product === product._id)
-      )
-
-      const mergedCart = updatedCart.map((product) => {
-        const matchingItem = cartData.find(
-          (item) => item.product === product._id
-        )
-        return {
-          ...product,
-          quantity: matchingItem?.quantity || 1,
-        }
-      })
-
-      setCartItems(mergedCart)
-    }
-  }, [cartData, products])
-
-  useEffect(() => {
-    if (wishlistData && products) {
-      const filteredItems = products.filter((product) =>
-        wishlistData.includes(product._id)
-      )
-      setWishlistItems(filteredItems)
-    }
-  }, [products, wishlistData])
+  // Fetch Data from DB
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -96,13 +74,47 @@ export const DataContextProvider: React.FC<DataContextProviderPropsTypes> = ({
     fetchProductData()
   }, [])
 
+  // setCart Data
+
+  useEffect(() => {
+    if (cartData) {
+      const updatedCart = products.filter((product) =>
+        cartData.some((cartItem) => cartItem.product === product._id)
+      )
+
+      const mergedCart = updatedCart.map((product) => {
+        const matchingItem = cartData.find(
+          (item) => item.product === product._id
+        )
+        return {
+          ...product,
+          quantity: matchingItem?.quantity || 1,
+        }
+      })
+
+      setCartItems(mergedCart)
+    }
+  }, [cartData, products])
+
+  // set Wishlist Data
+
+  useEffect(() => {
+    if (wishlistData && products) {
+      const filteredItems = products.filter((product) =>
+        wishlistData.includes(product._id)
+      )
+      setWishlistItems(filteredItems)
+    }
+  }, [products, wishlistData])
+
+  // Manage Cart State (Add , update And Delete)
   const addToCart = async (id: string) => {
     if (!user?._id) {
       return console.log("user not found")
     } else if (!id) {
       return console.log("product not found")
     }
-    const existingProduct = cartData?.find((item) => item.product === id)
+    const existingProduct = cartData.find((item) => item.product === id)
     if (existingProduct) {
       return
     }
@@ -126,7 +138,7 @@ export const DataContextProvider: React.FC<DataContextProviderPropsTypes> = ({
     }
   }
 
-  const removeToCart = async (id: string) => {
+  const removeCart = async (id: string) => {
     if (!user?._id) {
       return console.log("user not found")
     } else if (!id) {
@@ -145,6 +157,8 @@ export const DataContextProvider: React.FC<DataContextProviderPropsTypes> = ({
 
       if (response.status === 200) {
         dispatch(setCart(response.data.cart))
+      } else {
+        console.log(response.data.message)
       }
     } catch (error) {
       console.log(error)
@@ -158,8 +172,7 @@ export const DataContextProvider: React.FC<DataContextProviderPropsTypes> = ({
       return console.log("Product not found")
     }
 
-    // Check if the product exists in the cart
-    const existingProduct = cartData?.find((item) => item.product === id)
+    const existingProduct = cartData.find((item) => item.product === id)
     if (!existingProduct) {
       return console.log("Product not found in cart")
     }
@@ -187,18 +200,74 @@ export const DataContextProvider: React.FC<DataContextProviderPropsTypes> = ({
     }
   }
 
+  // Manage the Wishlist State (Add and Remove)
+
+  const addToWishlist = async (id: string) => {
+    if (!id) {
+      return console.log("Product Id not fount")
+    } else if (!user?._id) {
+      return console.log("User not fount ")
+    }
+
+    const newWishlistData = {
+      userId: user?._id,
+      productId: id,
+    }
+
+    try {
+      const response = await api.post("/api/user/wishlist", newWishlistData)
+
+      if (response.status === 200) {
+        dispatch(setWishlist(response.data.wishlist))
+      } else {
+        console.log(response.data.message)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const removeWishlist = async (id: string) => {
+    if (!id) {
+      return console.log("Product Id not fount")
+    } else if (!user?._id) {
+      return console.log("User not fount ")
+    }
+
+    const newWishlistData = {
+      userId: user?._id,
+      productId: id,
+    }
+
+    try {
+      const response = await api.delete("/api/user/wishlist", {
+        data: newWishlistData,
+      })
+
+      if (response.status === 200) {
+        dispatch(setWishlist(response.data.wishlist))
+      } else {
+        console.log(response.data.message)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <DataContext.Provider
       value={{
         products,
         setProducts,
         updateCart,
-        removeToCart,
+        removeCart,
         loading,
         wishlistItems,
         setWishlistItems,
         cartItems,
         setCartItems,
+        addToWishlist,
+        removeWishlist,
         addToCart,
       }}>
       {children}

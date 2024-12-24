@@ -1,18 +1,20 @@
 "use client"
 
 import { useContext, useState } from "react"
-import { Star, ShoppingBag, TrendingUp } from "lucide-react"
+import { Star, TrendingDown, Heart } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { ProductDetailModal } from "./ProductDetailModal"
 import { DataContext } from "@/context/DataProvider"
 import { ProductsDataTypes } from "@/types/dataTypes"
+import { useRouter } from "next/navigation"
 
 interface ProductCardProps {
   product: ProductsDataTypes
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
+
+  const router = useRouter()
   const dataContext = useContext(DataContext)
 
   if (!dataContext) {
@@ -21,33 +23,24 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     )
   }
 
-  const { addToCart } = dataContext
+  const {
+    addToCart,
+    cartItems,
+    removeCart,
+    wishlistItems,
+    addToWishlist,
+    removeWishlist,
+  } = dataContext
 
   const [isHovered, setIsHovered] = useState(false)
 
-  const [open, setOpen] = useState<boolean>(false)
-  const [detailProduct, setDetailProduct] = useState<ProductsDataTypes>({
-    _id: "",
-    name: "",
-    price: 0,
-    discountPercentage: 0,
-    category: "",
-    starRating: 0,
-    image: "",
-    discountPrice: 0,
-  })
 
-  const handleClose = () => {
-    setOpen(false)
+
+  const handleQuickView = (id: string) => {
+    router.push(`/products/${product._id}`)
   }
 
-  const handleQuickView = (product: ProductsDataTypes) => {
-    setOpen(true)
-    setDetailProduct(product)
-    setIsHovered(false)
-  }
-
-  const handleAddToCart = (id : string) => {
+  const handleAddToCart = (id: string) => {
     addToCart(id)
   }
 
@@ -84,7 +77,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             initial={false}
             animate={{ opacity: isHovered ? 1 : 0 }}>
             <motion.button
-              onClick={() => handleQuickView(product)}
+              onClick={() => handleQuickView(product._id)}
               className='bg-white text-black px-3 py-1 rounded-full font-medium text-sm transform hover:scale-105 transition-transform'
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.7 }}>
@@ -116,10 +109,17 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             <span className='bg-blue-100 text-blue-600 px-2 py-1 rounded-full'>
               {product.category}
             </span>
-            <div className='flex items-center text-gray-500'>
-              <ShoppingBag className='w-3 h-3 mr-1' />
-              In Stock
-            </div>
+            {wishlistItems.some((item) => item._id === product._id) ? (
+              <Heart
+                className='w-6 h-6 text-red-500 hover:cursor-pointer fill-current'
+                onClick={() => removeWishlist(product._id)}
+              />
+            ) : (
+              <Heart
+                className='w-6 h-6 text-gray-500 hover:cursor-pointer'
+                onClick={() => addToWishlist(product._id)}
+              />
+            )}
           </div>
 
           {/* Pricing and Add to Cart */}
@@ -134,24 +134,29 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                 </span>
               </div>
               <div className='flex items-center text-xs text-green-500'>
-                <TrendingUp className='w-3 h-3 mr-1' />
+                <TrendingDown className='w-3 h-3 mr-1' />
                 Price dropped
               </div>
             </div>
-            <motion.button
-              onClick={() => handleAddToCart(product._id)}
-              className='bg-green-500 text-white px-3 py-1 rounded-full font-medium shadow hover:bg-green-600 text-sm'
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}>
-              Add to Cart
-            </motion.button>
+            {cartItems.some((item) => item._id === product._id) ? (
+              <motion.button
+                onClick={() => removeCart(product._id)}
+                className='bg-red-500 text-white px-3 py-1 rounded-full font-medium shadow hover:bg-red-600 text-sm'
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}>
+                Remove
+              </motion.button>
+            ) : (
+              <motion.button
+                onClick={() => handleAddToCart(product._id)}
+                className='bg-green-500 text-white px-3 py-1 rounded-full font-medium shadow hover:bg-green-600 text-sm'
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}>
+                Add to Cart
+              </motion.button>
+            )}
           </div>
         </div>
-        <ProductDetailModal
-          detailProduct={detailProduct}
-          open={open}
-          onClose={handleClose}
-        />
       </div>
     </motion.div>
   )

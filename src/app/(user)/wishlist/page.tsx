@@ -7,19 +7,14 @@ import Link from "next/link"
 import { DataContext } from "@/context/DataProvider"
 import Loader from "@/components/Loader"
 
-const Wishlist : React.FC = () => {
+const Wishlist: React.FC = () => {
   const dataContext = useContext(DataContext)
 
   if (!dataContext) {
     throw new Error("Wishlist must be used within a DataContextProvider")
   }
 
-  const { wishlistItems, setWishlistItems, loading } = dataContext
-
-  const removeFromWishlist = (index: number) => {
-    const updatedItems = wishlistItems.filter((_, i) => i !== index)
-    setWishlistItems(updatedItems)
-  }
+  const { wishlistItems, removeWishlist, loading, addToCart } = dataContext
 
   return (
     <div className='min-h-screen bg-gray-50 py-8'>
@@ -52,13 +47,14 @@ const Wishlist : React.FC = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     className='bg-white text-red-500 p-2 rounded-full'
-                    onClick={() => removeFromWishlist(index)}>
+                    onClick={() => removeWishlist(item._id)}>
                     <Heart className='w-5 h-5 fill-current' />
                   </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className='bg-green-500 text-white p-2 rounded-full'>
+                    className='bg-green-500 text-white p-2 rounded-full'
+                    onClick={() => addToCart(item._id)}>
                     <ShoppingBag className='w-5 h-5' />
                   </motion.button>
                 </div>

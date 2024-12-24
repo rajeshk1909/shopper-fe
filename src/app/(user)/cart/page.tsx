@@ -16,7 +16,7 @@ const CartPage: React.FC = () => {
     throw new Error("CartPage must be used within a DataContextProvider")
   }
 
-  const { cartItems, loading, removeToCart, updateCart } = dataContext
+  const { cartItems, loading, removeCart, updateCart } = dataContext
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.discountPrice * (item.quantity ?? 1),
@@ -24,7 +24,7 @@ const CartPage: React.FC = () => {
   )
 
   const handleRemove = (id: string) => {
-    removeToCart(id)
+    removeCart(id)
   }
 
   const handleUpadte = (id: string, newQuantity: number) => {
