@@ -24,7 +24,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   const {
     addToCart,
-    cartItems,
     wishlistItems,
     addToWishlist,
     removeWishlist,
