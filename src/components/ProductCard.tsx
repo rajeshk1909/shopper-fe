@@ -25,7 +25,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const {
     addToCart,
     cartItems,
-    updateCart,
     wishlistItems,
     addToWishlist,
     removeWishlist,
@@ -37,7 +36,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     router.push(`/products/${id}`)
   }
 
-  const isInCart = cartItems.some((item) => item._id === product._id)
   const isInWishlist = wishlistItems.some((item) => item._id === product._id)
 
   return (
