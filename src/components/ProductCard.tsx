@@ -135,7 +135,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                   ₹{Math.floor(product.price)}
                 </span>
               </div>
-              <div className='flex items-center text-xs text-green-500'>
+              <div className='flex items-center text-xs text-red-500'>
                 <TrendingDown className='w-3 h-3 mr-1' />
                 Price dropped
               </div>

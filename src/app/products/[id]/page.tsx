@@ -83,7 +83,7 @@ const ProductDetailPage = () => {
             <p className='text-lg text-gray-500 line-through'>
               ₹{Math.floor(product.price)}
             </p>
-            <p className='text-sm text-green-500 flex items-center'>
+            <p className='text-sm text-red-500 flex items-center'>
               <TrendingDown className='w-5 h-5 mr-2' />
               Price dropped by {product.discountPercentage}%
             </p>
