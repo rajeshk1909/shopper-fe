@@ -19,7 +19,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     if (!userData && !adminData) {
       router.push("/login")
     } else if (adminData) {
-      router.back()
+      if (window.history.length > 1) {
+        router.back()
+      } else {
+        router.push("/admin")
+      }
     }
   }, [userData, router, adminData])
 

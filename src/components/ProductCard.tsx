@@ -25,7 +25,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const {
     addToCart,
     cartItems,
-    removeCart,
+    updateCart,
     wishlistItems,
     addToWishlist,
     removeWishlist,
@@ -36,7 +36,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const handleQuickView = (id: string) => {
     router.push(`/products/${id}`)
   }
-
 
   const isInCart = cartItems.some((item) => item._id === product._id)
   const isInWishlist = wishlistItems.some((item) => item._id === product._id)
@@ -146,17 +145,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             </div>
 
             <motion.button
-              onClick={() =>
-                isInCart ? removeCart(product._id) : addToCart(product._id)
-              }
-              className={` text-white px-3 py-1 ${
-                isInCart
-                  ? "bg-red-500 hover:bg-red-600"
-                  : "bg-green-500 hover:bg-green-600"
-              } rounded-full font-medium shadow  text-sm`}
+              onClick={() => addToCart(product._id)}
+              className={` text-white px-3 py-1 bg-green-500 hover:bg-green-600 rounded-full font-medium shadow  text-sm`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}>
-              {isInCart ? "Remove" : "Add to Cart"}
+              Add to Cart
             </motion.button>
           </div>
         </div>

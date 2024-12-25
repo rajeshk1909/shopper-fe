@@ -24,10 +24,8 @@ const ProductDetailPage = () => {
   const {
     products,
     addToCart,
-    cartItems,
     addToWishlist,
     wishlistItems,
-    removeCart,
     removeWishlist,
   } = dataContext
   const [product, setProduct] = useState<ProductsDataTypes | null>(null)
@@ -94,32 +92,31 @@ const ProductDetailPage = () => {
           {/* Action Buttons */}
           <div className='mt-8 flex gap-6'>
             {wishlistItems.some((item) => item._id === product._id) ? (
-              <button
+              <motion.button
                 onClick={() => removeWishlist(product._id)}
-                className='px-8 py-3 bg-red-600 text-white font-semibold rounded-xl shadow-md hover:bg-red-700 transition duration-200 transform hover:scale-105'>
+                className='px-8 py-3 bg-red-600 text-white font-semibold rounded-xl shadow-md hover:bg-red-700'
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}>
                 Remove from Wishlist
-              </button>
+              </motion.button>
             ) : (
-              <button
+              <motion.button
                 onClick={() => addToWishlist(product._id)}
-                className='px-8 py-3 bg-gray-200 text-gray-800 font-semibold rounded-xl shadow-md hover:bg-gray-300 transition duration-200 transform hover:scale-105'>
+                className='px-8 py-3 bg-gray-200 text-gray-800 font-semibold rounded-xl shadow-md hover:bg-gray-300'
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}>
                 Add to Wishlist
-              </button>
+              </motion.button>
             )}
 
-            {cartItems.some((item) => item._id === product._id) ? (
-              <button
-                onClick={() => removeCart(product._id)}
-                className='px-8 py-3 bg-red-600 text-white font-semibold rounded-xl shadow-md hover:bg-red-700 transition duration-200 transform hover:scale-105'>
-                Remove from Cart
-              </button>
-            ) : (
-              <button
-                onClick={() => addToCart(product._id)}
-                className='px-8 py-3 bg-green-600 text-white font-semibold rounded-xl shadow-md hover:bg-green-700 transition duration-200 transform hover:scale-105'>
-                Add to Cart
-              </button>
-            )}
+            <motion.button
+              onClick={() => addToCart(product._id)}
+              className='px-8 py-3 bg-green-600 text-white font-semibold rounded-xl shadow-md hover:bg-green-700'
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}>
+              Add to Cart
+            </motion.button>
+
           </div>
         </div>
       </div>

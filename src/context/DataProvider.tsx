@@ -115,13 +115,10 @@ export const DataContextProvider: React.FC<DataContextProviderPropsTypes> = ({
       return console.log("product not found")
     }
     const existingProduct = cartData.find((item) => item.product === id)
-    if (existingProduct) {
-      return
-    }
 
     const newCartData = {
       productId: id,
-      quantity: 1,
+      quantity: existingProduct ? existingProduct.quantity + 1 : 1,
       userId: user?._id,
     }
 
